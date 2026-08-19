@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,43 @@
 
     <h1>Mi Calculadora del Herrero</h1>
 
-    <p>Aplicación para realizar cálculos de herrería.</p>
+    <h2>Acanalado a 90°</h2>
+
+    <label>Medida final:</label>
+    <input type="number" id="medidaFinal">
+
+    <br><br>
+
+    <label>Canales:</label>
+    <input type="number" id="canales">
+
+    <br><br>
+
+    <label>Profundidad:</label>
+    <input type="number" id="profundidad">
+
+    <br><br>
+
+    <label>Bordes:</label>
+    <input type="number" id="bordes">
+
+    <br><br>
+
+    <label>Espesor:</label>
+    <input type="number" id="espesor">
+
+    <br><br>
+
+    <button onclick="calcular()">Calcular</button>
+
+    <h3>Resultado</h3>
+
+    <p>Ancho de canal: <span id="anchoCanal">-</span></p>
+    <p>Alto de canal: <span id="altoCanal">-</span></p>
+    <p>Desarrollo: <span id="desarrollo">-</span></p>
+
+    <script src="js/calculos.js"></script>
 
 </body>
+
 </html>
