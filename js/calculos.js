@@ -9,18 +9,22 @@ function calcular() {
     const anchoCanal = medidaFinal / canales;
     const altoCanal = profundidad;
 
-    const desarrollo =
-        (bordes * 2) +
-        medidaFinal +
-        ((canales - 1) * profundidad) -
-        (canales * 4 * espesor);
+    const desarrollo = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor);
 
-    document.getElementById("anchoCanal").textContent =
-        Math.round(anchoCanal);
+    document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
 
-    document.getElementById("altoCanal").textContent =
-        Math.round(altoCanal);
+    document.getElementById("altoCanal").textContent = Math.round(altoCanal);
 
-    document.getElementById("desarrollo").textContent =
-        Math.round(desarrollo);
+    document.getElementById("desarrollo").textContent = Math.round(desarrollo);
+
+ function verificarCanales() {
+
+    const canales = Number(document.getElementById("canales").value);
+
+    if (canales === 1) {
+        document.getElementById("profundidad").disabled = true;
+    }
+
+}   
+    
 }
