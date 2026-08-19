@@ -16,6 +16,7 @@ function calcular() {
     document.getElementById("altoCanal").textContent = Math.round(altoCanal);
 
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
+}
 
  function verificarCanales() {
 
@@ -27,6 +28,4 @@ function calcular() {
         document.getElementById("profundidad").disabled = true;
     }
 
-}  
-    
 }
