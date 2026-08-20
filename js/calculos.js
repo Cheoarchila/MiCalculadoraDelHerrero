@@ -34,11 +34,14 @@ function verificarCanales() {
     if (canales === 1) {
     document.getElementById("profundidad").value = 0;
     document.getElementById("profundidad").disabled = true;
-    } else {
+        } else {
     
-    document.getElementById("profundidad").disabled = false;
+        document.getElementById("profundidad").disabled = false;
     }
+
 }
+
+
 function verificarMedidaFinal() {
 
     let medidaFinal = Number(document.getElementById("medidaFinal").value);
@@ -48,5 +51,4 @@ function verificarMedidaFinal() {
         document.getElementById("medidaFinal").focus();
     }
 
-}
 }
