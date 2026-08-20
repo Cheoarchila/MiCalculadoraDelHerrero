@@ -18,21 +18,20 @@ function calcular() {
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 }
 
- function verificarCanales() {
+function verificarCanales() {
 
-    const canales = Number(document.getElementById("canales").value);
+   
+    let canales = Number(document.getElementById("canales").value);
 
-   let canales = Number(document.getElementById("canales").value);
-
-if (canales < 1) {
+    if (canales < 1) {
     document.getElementById("canales").value = 1;
     canales = 1;
-}
+    }
      
-     if (canales === 1) {
+    if (canales === 1) {
     document.getElementById("profundidad").value = 0;
     document.getElementById("profundidad").disabled = true;
-} else {
+    } else {
     
     document.getElementById("profundidad").disabled = false;
 }
