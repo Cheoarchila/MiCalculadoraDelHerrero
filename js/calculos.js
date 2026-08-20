@@ -48,6 +48,17 @@ function verificarMedidaFinal() {
 
     if (medidaFinal < 1 || document.getElementById("medidaFinal").value === "") {
         alert("Debes ingresar una Medida final válida.");
-        
+        document.getElementById("medidaFinal").value = ultimaMedidaFinal;
     }
+}
+let ultimaMedidaFinal = 1000;
+
+function guardarMedidaFinal() {
+
+    const valor = Number(document.getElementById("medidaFinal").value);
+
+    if (valor >= 1) {
+        ultimaMedidaFinal = valor;
+    }
+
 }
