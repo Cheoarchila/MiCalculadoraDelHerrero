@@ -84,3 +84,15 @@ function verificarProfundidad() {
     }
 
 }
+
+let ultimoBorde = 20;
+
+function guardarBordes() {
+
+    const valor = Number(document.getElementById("bordes").value);
+
+    if (Number.isInteger(valor) && valor >= 0) {
+        ultimoBorde = valor;
+    }
+
+}
