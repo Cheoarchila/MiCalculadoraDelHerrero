@@ -46,6 +46,13 @@ function verificarCanales() {
     if (canales === 1) {
     document.getElementById("profundidad").value = 0;
     document.getElementById("profundidad").disabled = true;
+
+    if (ultimoBorde === 0) {
+    ultimoBorde = 20;
+    }
+
+    document.getElementById("bordes").value = ultimoBorde;
+        
         } else {
     document.getElementById("profundidad").value = ultimaProfundidad;
     document.getElementById("profundidad").disabled = false;
