@@ -48,6 +48,6 @@ function verificarMedidaFinal() {
 
     if (medidaFinal < 1 || document.getElementById("medidaFinal").value === "") {
         alert("Debes ingresar una Medida final válida.");
-        document.getElementById("medidaFinal").focus();
+        
     }
 }
