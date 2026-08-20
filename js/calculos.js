@@ -37,6 +37,7 @@ function verificarCanales() {
     } else {
     
     document.getElementById("profundidad").disabled = false;
+    }
 }
 function verificarMedidaFinal() {
 
