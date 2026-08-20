@@ -18,6 +18,8 @@ function calcular() {
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 }
 
+    let ultimaProfundidad = 15;
+
 function verificarCanales() {
 
    
