@@ -23,6 +23,9 @@ function verificarCanales() {
    
     let canales = Number(document.getElementById("canales").value);
 
+    canales = Math.floor(canales);
+    document.getElementById("canales").value = canales;
+    
     if (canales < 1) {
     document.getElementById("canales").value = 1;
     canales = 1;
