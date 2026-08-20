@@ -22,7 +22,10 @@ function calcular() {
 
     const canales = Number(document.getElementById("canales").value);
 
- 
+    if (canales < 1) {
+    document.getElementById("canales").value = 1;
+}
+     
   if (canales === 1) {
     document.getElementById("profundidad").value = 0;
     document.getElementById("profundidad").disabled = true;
