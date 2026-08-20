@@ -51,4 +51,3 @@ function verificarMedidaFinal() {
         document.getElementById("medidaFinal").focus();
     }
 }
-}
