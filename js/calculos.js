@@ -22,8 +22,7 @@ function calcular() {
 
     const canales = Number(document.getElementById("canales").value);
 
-    alert("La función funciona");
-
+ 
    if (canales === 1) {
     document.getElementById("profundidad").value = 0;
     document.getElementById("profundidad").disabled = true;
