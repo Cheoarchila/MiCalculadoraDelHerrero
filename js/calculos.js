@@ -101,7 +101,12 @@ function verificarBordes() {
 
     const valor = document.getElementById("bordes").value;
 
-    if (valor === "" || !Number.isInteger(Number(valor)) || Number(valor) < 0) {
+    if (valor === "") {
+        document.getElementById("bordes").value = 0;
+        return;
+    }
+
+    if (!Number.isInteger(Number(valor)) || Number(valor) < 0) {
         alert("Debes ingresar un valor de bordes válido.");
         document.getElementById("bordes").value = ultimoBorde;
     }
