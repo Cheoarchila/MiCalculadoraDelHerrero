@@ -63,14 +63,24 @@ function verificarMedidaFinal() {
         document.getElementById("medidaFinal").value = ultimaMedidaFinal;
     }
 }
-let ultimaMedidaFinal = 1000;
+    let ultimaMedidaFinal = 1000;
 
 function guardarMedidaFinal() {
 
     const valor = Number(document.getElementById("medidaFinal").value);
 
-    if (valor >= 1) {
+        if (valor >= 1) {
         ultimaMedidaFinal = valor;
+    }
+
+}
+function verificarProfundidad() {
+
+    const profundidad = document.getElementById("profundidad").value;
+
+        if (profundidad === "" || Number(profundidad) < 1) {
+        alert("Debes ingresar una profundidad válida.");
+        document.getElementById("profundidad").value = ultimaProfundidad;
     }
 
 }
