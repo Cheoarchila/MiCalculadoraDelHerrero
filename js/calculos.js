@@ -50,5 +50,5 @@ function verificarMedidaFinal() {
         alert("Debes ingresar una Medida final válida.");
         document.getElementById("medidaFinal").focus();
     }
-
+}
 }
