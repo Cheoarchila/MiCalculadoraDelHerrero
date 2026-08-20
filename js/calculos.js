@@ -38,5 +38,14 @@ function verificarCanales() {
     
     document.getElementById("profundidad").disabled = false;
 }
+function verificarMedidaFinal() {
 
+    let medidaFinal = Number(document.getElementById("medidaFinal").value);
+
+    if (medidaFinal < 1 || document.getElementById("medidaFinal").value === "") {
+        alert("Debes ingresar una Medida final válida.");
+        document.getElementById("medidaFinal").focus();
+    }
+
+}
 }
