@@ -47,9 +47,9 @@ function verificarCanales() {
     document.getElementById("profundidad").value = 0;
     document.getElementById("profundidad").disabled = true;
         } else {
-    
-        document.getElementById("profundidad").disabled = false;
-    }
+    document.getElementById("profundidad").value = ultimaProfundidad;
+    document.getElementById("profundidad").disabled = false;
+}
 
 }
 
