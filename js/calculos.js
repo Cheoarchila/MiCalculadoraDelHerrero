@@ -27,6 +27,7 @@ function calcular() {
     document.getElementById("profundidad").value = 0;
     document.getElementById("profundidad").disabled = true;
 } else {
+    document.getElementById("profundidad").value >0;
     document.getElementById("profundidad").disabled = false;
 }
 
