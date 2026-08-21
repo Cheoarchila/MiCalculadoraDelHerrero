@@ -81,14 +81,18 @@ function guardarMedidaFinal() {
     }
 
 }
+
 function verificarProfundidad() {
 
     const profundidad = document.getElementById("profundidad").value;
 
-        if (profundidad === "" || Number(profundidad) < 1) {
+    if (profundidad === "" || Number(profundidad) < 1) {
         alert("Debes ingresar una profundidad válida.");
         document.getElementById("profundidad").value = ultimaProfundidad;
+        return;
     }
+
+    ultimaProfundidad = Number(profundidad);
 
 }
 
