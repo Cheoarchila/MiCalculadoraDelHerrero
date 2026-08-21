@@ -18,7 +18,8 @@ function calcular() {
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 }
 
-    let ultimaProfundidad = 15;
+
+let ultimaProfundidad = 15;
 
 function guardarProfundidad() {
 
@@ -30,35 +31,33 @@ function guardarProfundidad() {
 
 }
 
+
 function verificarCanales() {
 
-   
     let canales = Number(document.getElementById("canales").value);
 
     canales = Math.floor(canales);
     document.getElementById("canales").value = canales;
-    
+
     if (canales < 1) {
-    document.getElementById("canales").value = 1;
-    canales = 1;
+        document.getElementById("canales").value = 1;
+        canales = 1;
     }
-     
+
     if (canales === 1) {
-    document.getElementById("profundidad").value = 0;
-    document.getElementById("profundidad").disabled = true;
-      document.getElementById("bordes").value = 20;
 
-        
-    if (ultimoBorde === 0) {
-    ultimoBorde = 20;
+        document.getElementById("profundidad").value = 0;
+        document.getElementById("profundidad").disabled = true;
+
+        document.getElementById("bordes").value = ultimoBordePositivo;
+
+    } else {
+
+        document.getElementById("profundidad").value = ultimaProfundidad;
+        document.getElementById("profundidad").disabled = false;
+
+        document.getElementById("bordes").value = ultimoBorde;
     }
-
-    document.getElementById("bordes").value = ultimoBorde;
-        
-        } else {
-    document.getElementById("profundidad").value = ultimaProfundidad;
-    document.getElementById("profundidad").disabled = false;
-}
 
 }
 
@@ -71,28 +70,34 @@ function verificarMedidaFinal() {
         alert("Debes ingresar una Medida final válida.");
         document.getElementById("medidaFinal").value = ultimaMedidaFinal;
     }
+
 }
-    let ultimaMedidaFinal = 1000;
+
+
+let ultimaMedidaFinal = 1000;
 
 function guardarMedidaFinal() {
 
     const valor = Number(document.getElementById("medidaFinal").value);
 
-        if (valor >= 1) {
+    if (valor >= 1) {
         ultimaMedidaFinal = valor;
     }
 
 }
+
+
 function verificarProfundidad() {
 
     const profundidad = document.getElementById("profundidad").value;
 
-        if (profundidad === "" || Number(profundidad) < 1) {
+    if (profundidad === "" || Number(profundidad) < 1) {
         alert("Debes ingresar una profundidad válida.");
         document.getElementById("profundidad").value = ultimaProfundidad;
     }
 
 }
+
 
 let ultimoBorde = 20;
 let ultimoBordePositivo = 20;
@@ -102,6 +107,7 @@ function guardarBordes() {
     const valor = Number(document.getElementById("bordes").value);
 
     if (Number.isInteger(valor) && valor >= 0) {
+
         ultimoBorde = valor;
 
         if (valor > 0) {
@@ -110,6 +116,7 @@ function guardarBordes() {
     }
 
 }
+
 
 function verificarBordes() {
 
