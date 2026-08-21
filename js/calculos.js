@@ -53,7 +53,11 @@ function verificarMedidaFinal() {
 
     let medidaFinal = Number(document.getElementById("medidaFinal").value);
 
-    if (medidaFinal < 1 || document.getElementById("medidaFinal").value === "") {
+   if (
+    medidaFinal < 1 ||
+    !Number.isInteger(medidaFinal) ||
+    document.getElementById("medidaFinal").value === ""
+) {
         alert("Debes ingresar una Medida final válida.");
         document.getElementById("medidaFinal").value = ultimaMedidaFinal;
     }
