@@ -46,6 +46,7 @@ function verificarCanales() {
         } else {
     document.getElementById("profundidad").value = ultimaProfundidad;
     document.getElementById("profundidad").disabled = false;
+    document.getElementById("bordes").value = ultimoBorde;
 }
 
 }
