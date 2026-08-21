@@ -129,3 +129,13 @@ function verificarBordes() {
     }
 
 }
+function verificarEspesor() {
+
+    const campo = document.getElementById("espesor");
+    const valor = campo.value;
+
+    if (valor === "" || Number(valor) < 1) {
+        campo.value = 1;
+    }
+
+}
