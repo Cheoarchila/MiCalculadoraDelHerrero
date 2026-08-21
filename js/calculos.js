@@ -22,35 +22,32 @@ function calcular() {
 
 function verificarCanales() {
 
-   
     let canales = Number(document.getElementById("canales").value);
 
     canales = Math.floor(canales);
     document.getElementById("canales").value = canales;
-    
+
     if (canales < 1) {
-    document.getElementById("canales").value = 1;
-    canales = 1;
+        document.getElementById("canales").value = 1;
+        canales = 1;
     }
-     
+
     if (canales === 1) {
-    document.getElementById("profundidad").value = 0;
-    document.getElementById("profundidad").disabled = true;
 
-    if (ultimoBorde === 0) {
-    ultimoBorde = 20;
+        document.getElementById("profundidad").value = 0;
+        document.getElementById("profundidad").disabled = true;
+
+        document.getElementById("bordes").value = ultimoBordePositivo;
+
+    } else {
+
+        document.getElementById("profundidad").value = ultimaProfundidad;
+        document.getElementById("profundidad").disabled = false;
+
+        document.getElementById("bordes").value = ultimoBorde;
     }
 
-    document.getElementById("bordes").value = ultimoBorde;
-        
-        } else {
-    document.getElementById("profundidad").value = ultimaProfundidad;
-    document.getElementById("profundidad").disabled = false;
-    document.getElementById("bordes").value = ultimoBorde;
 }
-
-}
-
 
 function verificarMedidaFinal() {
 
