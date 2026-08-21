@@ -93,6 +93,7 @@ function verificarProfundidad() {
 }
 
 let ultimoBorde = 20;
+let ultimoBordePositivo = 20;
 
 function guardarBordes() {
 
@@ -100,13 +101,17 @@ function guardarBordes() {
 
     if (Number.isInteger(valor) && valor >= 0) {
         ultimoBorde = valor;
+
+        if (valor > 0) {
+            ultimoBordePositivo = valor;
+        }
     }
 
 }
-
 function verificarBordes() {
 
     const valor = document.getElementById("bordes").value;
+    const canales = Number(document.getElementById("canales").value);
 
     if (valor === "") {
         document.getElementById("bordes").value = 0;
@@ -116,6 +121,11 @@ function verificarBordes() {
     if (!Number.isInteger(Number(valor)) || Number(valor) < 0) {
         alert("Debes ingresar un valor de bordes válido.");
         document.getElementById("bordes").value = ultimoBorde;
+        return;
+    }
+
+    if (canales === 1 && Number(valor) === 0) {
+        document.getElementById("bordes").value = ultimoBordePositivo;
     }
 
 }
