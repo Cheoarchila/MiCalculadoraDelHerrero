@@ -46,7 +46,9 @@ function verificarCanales() {
     if (canales === 1) {
     document.getElementById("profundidad").value = 0;
     document.getElementById("profundidad").disabled = true;
+      document.getElementById("bordes").value = 20;
 
+        
     if (ultimoBorde === 0) {
     ultimoBorde = 20;
     }
@@ -93,6 +95,7 @@ function verificarProfundidad() {
 }
 
 let ultimoBorde = 20;
+let ultimoBordePositivo = 20;
 
 function guardarBordes() {
 
@@ -100,6 +103,10 @@ function guardarBordes() {
 
     if (Number.isInteger(valor) && valor >= 0) {
         ultimoBorde = valor;
+
+        if (valor > 0) {
+            ultimoBordePositivo = valor;
+        }
     }
 
 }
