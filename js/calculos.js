@@ -105,22 +105,39 @@ function guardarBordes() {
 }
 function verificarBordes() {
 
-    const valor = document.getElementById("bordes").value;
+    const campo = document.getElementById("bordes");
+    const valor = campo.value;
     const canales = Number(document.getElementById("canales").value);
 
     if (valor === "") {
-        document.getElementById("bordes").value = 0;
+        campo.value = 0;
+
+        if (canales > 1) {
+            ultimoBorde = 0;
+        }
+
         return;
     }
 
-    if (!Number.isInteger(Number(valor)) || Number(valor) < 0) {
+    const numero = Number(valor);
+
+    if (!Number.isInteger(numero) || numero < 0) {
         alert("Debes ingresar un valor de bordes válido.");
-        document.getElementById("bordes").value = ultimoBorde;
+        campo.value = ultimoBorde;
         return;
     }
 
-    if (canales === 1 && Number(valor) === 0) {
-        document.getElementById("bordes").value = ultimoBordePositivo;
+    // El valor es válido: guardar el nuevo valor
+    ultimoBorde = numero;
+
+    if (numero > 0) {
+        ultimoBordePositivo = numero;
+    }
+
+    // Con un solo canal, Bordes no puede ser 0
+    if (canales === 1 && numero === 0) {
+        campo.value = ultimoBordePositivo;
+        ultimoBorde = 0;
     }
 
 }
