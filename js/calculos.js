@@ -62,15 +62,13 @@ function verificarCanales() {
 }
 
 
-function verificarMedidaFinal() {
-
-    let medidaFinal = Number(document.getElementById("medidaFinal").value);
-
-    if (medidaFinal < 1 || document.getElementById("medidaFinal").value === "") {
-        alert("Debes ingresar una Medida final válida.");
-        document.getElementById("medidaFinal").value = ultimaMedidaFinal;
-    }
-
+if (
+    document.getElementById("medidaFinal").value === "" ||
+    !Number.isInteger(medidaFinal) ||
+    medidaFinal < 1
+) {
+    alert("Debes ingresar una Medida final válida.");
+    document.getElementById("medidaFinal").value = ultimaMedidaFinal;
 }
 
 
@@ -80,9 +78,9 @@ function guardarMedidaFinal() {
 
     const valor = Number(document.getElementById("medidaFinal").value);
 
-    if (valor >= 1) {
-        ultimaMedidaFinal = valor;
-    }
+   if (Number.isInteger(valor) && valor >= 1) {
+    ultimaMedidaFinal = valor;
+}
 
 }
 
