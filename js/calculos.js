@@ -64,16 +64,6 @@ function verificarMedidaFinal() {
     campo.value = valor;
 }
 
-function guardarMedidaFinal() {
-
-    const valor = Number(document.getElementById("medidaFinal").value);
-
-        if (valor >= 1) {
-        ultimaMedidaFinal = valor;
-    }
-
-}
-
 function verificarProfundidad() {
 
     const profundidad = document.getElementById("profundidad").value;
@@ -91,19 +81,6 @@ function verificarProfundidad() {
 let ultimoBorde = 20;
 let ultimoBordePositivo = 20;
 
-function guardarBordes() {
-
-    const valor = Number(document.getElementById("bordes").value);
-
-    if (Number.isInteger(valor) && valor >= 0) {
-        ultimoBorde = valor;
-
-        if (valor > 0) {
-            ultimoBordePositivo = valor;
-        }
-    }
-
-}
 function verificarBordes() {
 
     const campo = document.getElementById("bordes");
