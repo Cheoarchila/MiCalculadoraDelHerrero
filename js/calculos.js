@@ -20,16 +20,6 @@ function calcular() {
 
     let ultimaProfundidad = 15;
 
-function guardarProfundidad() {
-
-    const valor = Number(document.getElementById("profundidad").value);
-
-    if (valor >= 1) {
-        ultimaProfundidad = valor;
-    }
-
-}
-
 function verificarCanales() {
 
    
