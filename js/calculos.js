@@ -51,18 +51,18 @@ function verificarCanales() {
 
 function verificarMedidaFinal() {
 
-    let medidaFinal = Number(document.getElementById("medidaFinal").value);
+    const campo = document.getElementById("medidaFinal");
+    let valor = Number(campo.value);
 
-   if (
-    medidaFinal < 1 ||
-    !Number.isInteger(medidaFinal) ||
-    document.getElementById("medidaFinal").value === ""
-) {
+    if (campo.value === "" || valor < 1) {
         alert("Debes ingresar una Medida final válida.");
-        document.getElementById("medidaFinal").value = ultimaMedidaFinal;
+        campo.value = ultimaMedidaFinal;
+        return;
     }
+
+    valor = Math.floor(valor);
+    campo.value = valor;
 }
-    let ultimaMedidaFinal = 1000;
 
 function guardarMedidaFinal() {
 
