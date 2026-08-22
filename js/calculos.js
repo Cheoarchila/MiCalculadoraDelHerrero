@@ -129,4 +129,10 @@ function verificarEspesor() {
     }
 
 }
-document.getElementById("listaMarcas").textContent = "19";
+//Primera Marca//
+const bordes = Number(document.getElementById("bordes").value);
+const espesor = Number(document.getElementById("espesor").value);
+
+const primeraMarca = bordes - espesor;
+
+document.getElementById("listaMarcas").textContent = Math.round(primeraMarca);
