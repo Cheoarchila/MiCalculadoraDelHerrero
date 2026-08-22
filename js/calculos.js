@@ -11,11 +11,15 @@ function calcular() {
 
     const desarrollo = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor);
 
+    const primeraMarca = bordes - espesor;
+
     document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
 
     document.getElementById("altoCanal").textContent = Math.round(altoCanal);
 
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
+
+    document.getElementById("listaMarcas").textContent = Math.round(primeraMarca);
 }
 
     let ultimaProfundidad = 15;
@@ -129,10 +133,3 @@ function verificarEspesor() {
     }
 
 }
-//Ciclo de Marcas//
-const bordes = Number(document.getElementById("bordes").value);
-const espesor = Number(document.getElementById("espesor").value);
-
-const primeraMarca = bordes - espesor;
-
-document.getElementById("listaMarcas").textContent = Math.round(primeraMarca);
