@@ -31,8 +31,10 @@ const bordeReducido = bordes - espesor;
 marca += anchoReducido;
 listaMarcas += Math.round(marca) + "<br>";
 
-marca += altoReducido;
-listaMarcas += Math.round(marca) + "<br>";
+if (canales > 1) {
+    marca += altoReducido;
+    listaMarcas += Math.round(marca) + "<br>";
+}
 
 // Secciones intermedias
 for (let i = 2; i < canales; i++) {
