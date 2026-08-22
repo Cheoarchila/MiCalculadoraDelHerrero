@@ -129,10 +129,30 @@ function verificarEspesor() {
     }
 
 }
-//Primera Marca//
+//Ciclo de Marcas//
 const bordes = Number(document.getElementById("bordes").value);
 const espesor = Number(document.getElementById("espesor").value);
+const canales = Number(document.getElementById("canales").value);
+const anchoCanal = Number(document.getElementById("anchoCanal").textContent);
+const altoCanal = Number(document.getElementById("altoCanal").textContent);
 
-const primeraMarca = bordes - espesor;
+let marca = bordes - espesor;
+let lista = "";
 
-document.getElementById("listaMarcas").textContent = Math.round(primeraMarca);
+lista += Math.round(marca) + "<br>";
+
+for (let i = 1; i <= canales; i++) {
+
+    marca += anchoCanal - (2 * espesor);
+    lista += Math.round(marca) + "<br>";
+
+    marca += altoCanal - (2 * espesor);
+    lista += Math.round(marca) + "<br>";
+
+    if (i < canales) {
+        marca += anchoCanal;
+        lista += Math.round(marca) + "<br>";
+    }
+}
+
+document.getElementById("listaMarcas").innerHTML = lista;
