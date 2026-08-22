@@ -47,12 +47,6 @@ for (let i = 2; i < canales; i++) {
     listaMarcas += Math.round(marca) + "<br>";
 }
 
-// Último ancho completo cuando corresponde
-if (canales > 1) {
-    marca += anchoCanal;
-    listaMarcas += Math.round(marca) + "<br>";
-}
-
 // Borde final
 marca += bordeReducido;
 listaMarcas += Math.round(marca);
