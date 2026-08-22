@@ -39,14 +39,11 @@ if (canales > 1) {
 // Secciones intermedias
 for (let i = 2; i < canales; i++) {
 
-    marca += anchoCanal;
-    listaMarcas += Math.round(marca) + "<br>";
+   marca += anchoCanal;
+listaMarcas += Math.round(marca) + "<br>";
 
-    marca += altoReducido;
-    listaMarcas += Math.round(marca) + "<br>";
-
-    marca += anchoReducido;
-    listaMarcas += Math.round(marca) + "<br>";
+marca += altoReducido;
+listaMarcas += Math.round(marca) + "<br>";
 }
 if (canales === 2) {
     marca += anchoCanal;
