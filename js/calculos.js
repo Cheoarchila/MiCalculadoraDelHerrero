@@ -129,3 +129,4 @@ function verificarEspesor() {
     }
 
 }
+document.getElementById("listaMarcas").textContent = "19";
