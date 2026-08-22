@@ -11,22 +11,34 @@ function calcular() {
 
     const desarrollo = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor);
 
-    const primeraMarca = bordes - espesor;
-    const segundaMarca = primeraMarca + anchoCanal - (2 * espesor);
-    const terceraMarca = segundaMarca + altoCanal - (2 * espesor);
-    const cuartaMarca = terceraMarca + anchoCanal;
-
+    
+    
     document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
 
     document.getElementById("altoCanal").textContent = Math.round(altoCanal);
 
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 
-    document.getElementById("listaMarcas").innerHTML =
-    Math.round(primeraMarca) + "<br>" +
-    Math.round(segundaMarca) + "<br>" +
-    Math.round(terceraMarca) + "<br>" +
-    Math.round(cuartaMarca);
+//Ciclo de Marcas//
+    let marca = bordes - espesor;
+let listaMarcas = Math.round(marca) + "<br>";
+
+for (let i = 1; i <= canales; i++) {
+
+    marca += anchoCanal - (2 * espesor);
+    listaMarcas += Math.round(marca) + "<br>";
+
+    marca += altoCanal - (2 * espesor);
+    listaMarcas += Math.round(marca) + "<br>";
+
+    if (i < canales) {
+        marca += anchoCanal;
+        listaMarcas += Math.round(marca) + "<br>";
+    }
+}
+
+document.getElementById("listaMarcas").innerHTML = listaMarcas;
+    
 }
 
     let ultimaProfundidad = 15;
