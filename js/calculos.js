@@ -23,19 +23,39 @@ function calcular() {
     let marca = bordes - espesor;
 let listaMarcas = Math.round(marca) + "<br>";
 
-for (let i = 1; i <= canales; i++) {
+const anchoReducido = anchoCanal - (2 * espesor);
+const altoReducido = altoCanal - (2 * espesor);
+const bordeReducido = bordes - espesor;
 
-    marca += anchoCanal - (2 * espesor);
+// Primera sección
+marca += anchoReducido;
+listaMarcas += Math.round(marca) + "<br>";
+
+marca += altoReducido;
+listaMarcas += Math.round(marca) + "<br>";
+
+// Secciones intermedias
+for (let i = 2; i < canales; i++) {
+
+    marca += anchoCanal;
     listaMarcas += Math.round(marca) + "<br>";
 
-    marca += altoCanal - (2 * espesor);
+    marca += altoReducido;
     listaMarcas += Math.round(marca) + "<br>";
 
-    if (i < canales) {
-        marca += anchoCanal;
-        listaMarcas += Math.round(marca) + "<br>";
-    }
+    marca += anchoReducido;
+    listaMarcas += Math.round(marca) + "<br>";
 }
+
+// Último ancho completo cuando corresponde
+if (canales > 1) {
+    marca += anchoCanal;
+    listaMarcas += Math.round(marca) + "<br>";
+}
+
+// Borde final
+marca += bordeReducido;
+listaMarcas += Math.round(marca);
 
 document.getElementById("listaMarcas").innerHTML = listaMarcas;
     
