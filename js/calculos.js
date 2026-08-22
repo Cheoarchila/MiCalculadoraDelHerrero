@@ -13,6 +13,7 @@ function calcular() {
 
     const primeraMarca = bordes - espesor;
     const segundaMarca = primeraMarca + anchoCanal - (2 * espesor);
+    const terceraMarca = segundaMarca + altoCanal - (2 * espesor);
 
     document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
 
@@ -20,9 +21,10 @@ function calcular() {
 
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 
-   document.getElementById("listaMarcas").innerHTML =
+  document.getElementById("listaMarcas").innerHTML =
     Math.round(primeraMarca) + "<br>" +
-    Math.round(segundaMarca);
+    Math.round(segundaMarca) + "<br>" +
+    Math.round(terceraMarca);
 }
 
     let ultimaProfundidad = 15;
