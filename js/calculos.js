@@ -9,8 +9,7 @@ function calcular() {
     const anchoCanal = medidaFinal / canales;
     const altoCanal = profundidad;
 
-    const desarrollo = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor);
-
+   const desarrollo = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor) + ((canales - 1) * espesor);
     
     
     document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
