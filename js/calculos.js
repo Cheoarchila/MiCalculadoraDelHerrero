@@ -1,5 +1,6 @@
 function calcular() {
 
+     const medidaPlancha = Number(document.getElementById("medidaFinal").value);
     const medidaFinal = Number(document.getElementById("medidaFinal").value);
     const canales = Number(document.getElementById("canales").value);
     const profundidad = Number(document.getElementById("profundidad").value);
