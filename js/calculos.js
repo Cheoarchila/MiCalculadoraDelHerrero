@@ -49,6 +49,8 @@ if (canales === 2) {
     listaMarcas += Math.round(marca) + "<br>";
 }
 // Borde final
+marca += anchoReducido;
+listaMarcas += Math.round(marca) + "<br>";
 marca += bordeReducido;
 listaMarcas += Math.round(marca);
 
