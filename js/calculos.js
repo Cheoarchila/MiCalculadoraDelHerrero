@@ -23,7 +23,7 @@ function calcular() {
     // NUEVO CICLO DE MARCAS OPTIMIZADO
     // ==========================================
     
-    // 1. Calcular el ancho base usando "medidaFinal" en vez de una división con decimales
+        // 1. Calcular el ancho base usando "medidaFinal" en vez de una división con decimales
     const jsonAnchoBase = Math.round(medidaFinal / canales); 
 
     // 2. Definición de las medidas reducidas por el espesor del material
@@ -32,9 +32,13 @@ function calcular() {
     const anchoImpar = anchoPar - (2 * espesor);      // Ej: Para canales impares = 109
     const altoReducido = profundidad - (2 * espesor); // Ej: 15 - 2 = 13
 
+    // --- NUEVO: Inicializar el contador de marcas ---
+    let contador = 1; 
+
     // 3. Inicializar la cinta métrica con la primera marca (Borde inicial)
     let marca = bordeReducido; 
-    let listaMarcas = Math.round(marca) + "<br>"; // Guarda el primer 19
+    // MODIFICADO: Se agrega el número al inicio y se incrementa el contador (contador++)
+    let listaMarcas = `${contador++}. &nbsp;&nbsp; ${Math.round(marca)} <br>`; 
 
     // 4. Ciclo unificado que recorre todos los canales
     for (let i = 1; i <= canales; i++) {
@@ -49,12 +53,14 @@ function calcular() {
         
         // Sumar el ancho del canal a la marca
         marca += anchoActual;
-        listaMarcas += Math.round(marca) + "<br>";
+        // MODIFICADO: Numeración añadida
+        listaMarcas += `${contador++}. &nbsp;&nbsp; ${Math.round(marca)} <br>`;
         
         // Si no es el último canal, sumar la profundidad de la pared divisoria
         if (i < canales) {
             marca += altoReducido;
-            listaMarcas += Math.round(marca) + "<br>";
+            // MODIFICADO: Numeración añadida
+            listaMarcas += `${contador++}. &nbsp;&nbsp; ${Math.round(marca)} <br>`;
         }
     }
 
