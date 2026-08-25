@@ -32,13 +32,14 @@ function calcular() {
     const anchoImpar = anchoPar - (2 * espesor);      // Ej: Para canales impares = 109
     const altoReducido = profundidad - (2 * espesor); // Ej: 15 - 2 = 13
 
-    // --- NUEVO: Inicializar el contador de marcas ---
+    // --- Inicializar el contador de marcas ---
     let contador = 1; 
 
     // 3. Inicializar la cinta métrica con la primera marca (Borde inicial)
     let marca = bordeReducido; 
-    // MODIFICADO: Se agrega el número al inicio y se incrementa el contador (contador++)
-    let listaMarcas = `${contador++}. &nbsp;&nbsp; ${Math.round(marca)} <br>`; 
+    // CORREGIDO: Numeración limpia sin el ++ inline
+    let listaMarcas = contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>"; 
+    contador++; // Avanza al número 2
 
     // 4. Ciclo unificado que recorre todos los canales
     for (let i = 1; i <= canales; i++) {
@@ -53,14 +54,16 @@ function calcular() {
         
         // Sumar el ancho del canal a la marca
         marca += anchoActual;
-        // MODIFICADO: Numeración añadida
-        listaMarcas += `${contador++}. &nbsp;&nbsp; ${Math.round(marca)} <br>`;
+        // CORREGIDO: Añade la marca y luego incrementa
+        listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>";
+        contador++;
         
         // Si no es el último canal, sumar la profundidad de la pared divisoria
         if (i < canales) {
             marca += altoReducido;
-            // MODIFICADO: Numeración añadida
-            listaMarcas += `${contador++}. &nbsp;&nbsp; ${Math.round(marca)} <br>`;
+            // CORREGIDO: Añade la marca y luego incrementa
+            listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>";
+            contador++;
         }
     }
 
