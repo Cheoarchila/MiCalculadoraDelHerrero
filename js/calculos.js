@@ -23,7 +23,7 @@ function calcular() {
     // NUEVO CICLO DE MARCAS OPTIMIZADO
     // ==========================================
     
-        // 1. Calcular el ancho base usando "medidaFinal" en vez de una división con decimales
+           // 1. Calcular el ancho base usando "medidaFinal" en vez de una división con decimales
     const jsonAnchoBase = Math.round(medidaFinal / canales); 
 
     // 2. Definición de las medidas reducidas por el espesor del material
@@ -37,9 +37,8 @@ function calcular() {
 
     // 3. Inicializar la cinta métrica con la primera marca (Borde inicial)
     let marca = bordeReducido; 
-    // CORREGIDO: Numeración limpia sin el ++ inline
     let listaMarcas = contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>"; 
-    contador++; // Avanza al número 2
+    contador++; 
 
     // 4. Ciclo unificado que recorre todos los canales
     for (let i = 1; i <= canales; i++) {
@@ -54,27 +53,21 @@ function calcular() {
         
         // Sumar el ancho del canal a la marca
         marca += anchoActual;
-        // CORREGIDO: Añade la marca y luego incrementa
         listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>";
         contador++;
         
         // Si no es el último canal, sumar la profundidad de la pared divisoria
         if (i < canales) {
             marca += altoReducido;
-            // CORREGIDO: Añade la marca y luego incrementa
             listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>";
             contador++;
         }
     }
 
-    // 5. Sumar el borde final
+    // --- ¡NUEVO! 5. Añadir la última marca (Borde final de la estructura) ---
+    // Después del último canal, se debe sumar el espesor final para cerrar la pieza
     marca += bordeReducido; 
-    listaMarcas += Math.round(marca); // Marca final acumulada en la variable "marca"
-
-    // 6. Mostrar los resultados corregidos en el HTML
-    document.getElementById("desarrollo").textContent = Math.round(marca); // Ahora coincide exactamente con la última marca
-    document.getElementById("listaMarcas").innerHTML = listaMarcas;
-document.getElementById("listaMarcas").innerHTML = listaMarcas;
+    listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>";
     
 }
 
