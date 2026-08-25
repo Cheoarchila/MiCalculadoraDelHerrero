@@ -19,42 +19,52 @@ function calcular() {
 
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 
-//Ciclo de Marcas//
-    let marca = bordes - espesor;
-let listaMarcas = Math.round(marca) + "<br>";
+    // ==========================================
+    // NUEVO CICLO DE MARCAS OPTIMIZADO
+    // ==========================================
+    
+    // 1. Calcular el ancho base usando "medidaFinal" en vez de una división con decimales
+    const jsonAnchoBase = Math.round(medidaFinal / canales); 
 
-const anchoReducido = anchoCanal - (2 * espesor);
-const altoReducido = altoCanal - (2 * espesor);
-const bordeReducido = bordes - espesor;
+    // 2. Definición de las medidas reducidas por el espesor del material
+    const bordeReducido = bordes - espesor;           // Ej: 20 - 1 = 19
+    const anchoPar = jsonAnchoBase;                   // Ej: Para canales pares = 111
+    const anchoImpar = anchoPar - (2 * espesor);      // Ej: Para canales impares = 109
+    const altoReducido = profundidad - (2 * espesor); // Ej: 15 - 2 = 13
 
-// Primera sección
-marca += anchoReducido;
-listaMarcas += Math.round(marca) + "<br>";
+    // 3. Inicializar la cinta métrica con la primera marca (Borde inicial)
+    let marca = bordeReducido; 
+    let listaMarcas = Math.round(marca) + "<br>"; // Guarda el primer 19
 
-if (canales > 1) {
-    marca += altoReducido;
-    listaMarcas += Math.round(marca) + "<br>";
-}
+    // 4. Ciclo unificado que recorre todos los canales
+    for (let i = 1; i <= canales; i++) {
+        
+        // Alternar el ancho según si el canal actual es impar o par
+        let anchoActual;
+        if (i % 2 !== 0) {
+            anchoActual = anchoImpar; // Canales 1, 3, 5, 7, 9
+        } else {
+            anchoActual = anchoPar;   // Canales 2, 4, 6, 8
+        }
+        
+        // Sumar el ancho del canal a la marca
+        marca += anchoActual;
+        listaMarcas += Math.round(marca) + "<br>";
+        
+        // Si no es el último canal, sumar la profundidad de la pared divisoria
+        if (i < canales) {
+            marca += altoReducido;
+            listaMarcas += Math.round(marca) + "<br>";
+        }
+    }
 
-// Secciones intermedias
-for (let i = 2; i < canales; i++) {
+    // 5. Sumar el borde final
+    marca += bordeReducido; 
+    listaMarcas += Math.round(marca); // Marca final acumulada en la variable "marca"
 
-   marca += anchoCanal;
-listaMarcas += Math.round(marca) + "<br>";
-
-marca += altoReducido;
-listaMarcas += Math.round(marca) + "<br>";
-}
-if (canales === 2) {
-    marca += anchoCanal;
-    listaMarcas += Math.round(marca) + "<br>";
-}
-// Borde final
-marca += anchoReducido;
-listaMarcas += Math.round(marca) + "<br>";
-marca += bordeReducido;
-listaMarcas += Math.round(marca);
-
+    // 6. Mostrar los resultados corregidos en el HTML
+    document.getElementById("desarrollo").textContent = Math.round(marca); // Ahora coincide exactamente con la última marca
+    document.getElementById("listaMarcas").innerHTML = listaMarcas;
 document.getElementById("listaMarcas").innerHTML = listaMarcas;
     
 }
