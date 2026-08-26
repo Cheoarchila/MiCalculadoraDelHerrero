@@ -15,66 +15,154 @@ function calcular() {
     const anchoCanal = medidaFinal / canales;
     const altoCanal = profundidad;
 
-    // Cálculo técnico del desarrollo de la chapa
-    const desarrollo = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor) + ((canales - 1) * espesor);
+    // Cálculo técnico del desarrollo de la chapa completa
+    const desarrolloTotal = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor) + ((canales - 1) * espesor);
     
     document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
     document.getElementById("altoCanal").textContent = Math.round(altoCanal);
-    document.getElementById("desarrollo").textContent = Math.round(desarrollo);
+    document.getElementById("desarrollo").textContent = Math.round(desarrolloTotal);
 
     // ==========================================
-    // CICLO DE MARCAS OPTIMIZADO Y NUMERADO
+    // SISTEMA DE PLANCHAS Y MARCAS DE CORTE
     // ==========================================
     
-    // 1. Calcular el ancho base usando "medidaFinal" en vez de una división con decimales
     const jsonAnchoBase = Math.round(medidaFinal / canales); 
-
-    // 2. Definición de las medidas reducidas por el espesor del material
-    const bordeReducido = bordes - espesor;           // Ej: 20 - 1 = 19
-    const anchoPar = jsonAnchoBase;                   // Ej: Para canales pares = 111
-    const anchoImpar = anchoPar - (2 * espesor);      // Ej: Para canales impares = 109
-    const altoReducido = profundidad - (2 * espesor); // Ej: 15 - 2 = 13
-
-    // Inicializar el contador visual de marcas
-    let contador = 1; 
-
-    // 3. Inicializar la cinta métrica con la primera marca (Borde inicial)
-    let marca = bordeReducido; 
-    let listaMarcas = contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm<br>"; 
-    contador++; 
-
-    // 4. Ciclo unificado que recorre todos los canales
-    for (let i = 1; i <= canales; i++) {
-        
-        // Alternar el ancho según si el canal actual es impar o par
-        let anchoActual;
-        if (i % 2 !== 0) {
-            anchoActual = anchoImpar; // Canales impares (1, 3, 5...)
-        } else {
-            anchoActual = anchoPar;   // Canales pares (2, 4, 6...)
-        }
-        
-        // Sumar el ancho del canal a la marca
-        marca += anchoActual;
-        listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm<br>";
+    const bordeReducido = bordes - espesor;           
+    const anchoPar = jsonAnchoBase;                   
+    const anchoImpar = anchoPar - (2 * espesor);      
+    const altoReducido = profundidad - (2 * espesor); 
+    
+    let htmlResultado = "";
+    
+    // CASO 1: Todo cabe en una sola plancha (Regla 1)
+    if (desarrolloTotal <= anchoPlancha) {
+        let contador = 1;
+        let marca = bordeReducido;
+        let listaMarcas = "<strong>--- PLANCHA ÚNICA ---</strong><br>";
+        listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)<br>";
         contador++;
-        
-        // Si no es el último canal, sumar la profundidad de la pared divisoria
-        if (i < canales) {
-            marca += altoReducido;
-            listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm<br>";
-            contador++;
+
+        for (let i = 1; i <= canales; i++) {
+            let anchoActual = (i % 2 !== 0) ? anchoImpar : anchoPar;
+            marca += anchoActual;
+            
+            if (i === canales) {
+                marca += bordeReducido;
+                listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm <strong>[CORTE]</strong><br>";
+            } else {
+                listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)<br>";
+                contador++;
+                marca += altoReducido;
+                listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)<br>";
+                contador++;
+            }
+        }
+        htmlResultado = listaMarcas;
+    } 
+    // CASO 2 en adelante: Requiere Multi-plancha automático con agrupación (Reglas 2 a 6)
+    else {
+        let canalActual = 1;
+        let numeroPlancha = 1;
+        let bloquesPlanchas = []; // Guardará los datos de cada plancha calculada
+
+        // --- FASE 1: Calcular la distribución de todas las planchas en memoria ---
+        while (canalActual <= canales) {
+            let marca = 0;
+            let marcasDeEstaPlancha = [];
+            let contador = 1;
+
+            if (numeroPlancha === 1) {
+                marca = bordeReducido;
+                marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)");
+                contador++;
+            } else {
+                marca = altoReducido;
+                marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)");
+                contador++;
+            }
+
+            let avanzarPlancha = false;
+
+            while (canalActual <= canales && !avanzarPlancha) {
+                let anchoActual = (canalActual % 2 !== 0) ? anchoImpar : anchoPar;
+                let marcaSimuladaCanal = marca + anchoActual;
+                let marcaSimuladaCierre = marcaSimuladaCanal + bordeReducido;
+                let marcaSimuladaProfundidad = marcaSimuladaCanal + altoReducido;
+
+                if (canalActual === canales) {
+                    if (marcaSimuladaCierre <= anchoPlancha) {
+                        marca = marcaSimuladaCierre;
+                        marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm <strong>[CORTE]</strong>");
+                        canalActual++;
+                    } else {
+                        marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm <strong>[CORTE]</strong>");
+                        avanzarPlancha = true;
+                    }
+                } else {
+                    if (marcaSimuladaProfundidad <= anchoPlancha) {
+                        marca = marcaSimuladaCanal;
+                        marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)");
+                        contador++;
+                        
+                        marca += altoReducido;
+                        if (canalActual + 1 <= canales && (marca + ((canalActual + 1 % 2 !== 0) ? anchoImpar : anchoPar)) > anchoPlancha) {
+                            marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm <strong>[CORTE]</strong>");
+                            canalActual++;
+                            avanzarPlancha = true;
+                        } else {
+                            marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)");
+                            contador++;
+                            canalActual++;
+                        }
+                    } else {
+                        marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm <strong>[CORTE]</strong>");
+                        avanzarPlancha = true;
+                    }
+                }
+            }
+
+            // Guardamos el bloque de texto generado para esta plancha
+            bloquesPlanchas.push({
+                numero: numeroPlancha,
+                texto: marcasDeEstaPlancha.join("<br>") + "<br>"
+            });
+            numeroPlancha++;
+        }
+
+        // --- FASE 2: Renderizar y agrupar según la cantidad de planchas (Regla 6) ---
+        let totalPlanchas = bloquesPlanchas.length;
+
+        // Plancha 1 siempre se muestra sola
+        htmlResultado += "<strong>--- PLANCHA 1 ---</strong><br>" + bloquesPlanchas[0].texto + "<br>";
+
+        if (totalPlanchas > 1) {
+            // Si hay 3 o más planchas totales, las intermedias (desde la 2 hasta la penúltima) son iguales
+            if (totalPlanchas >= 3) {
+                let intermedias = [];
+                for (let i = 2; i < totalPlanchas; i++) {
+                    intermedias.push(i);
+                }
+                
+                // Imprimimos la cabecera agrupada (Ej: "PLANCHAS 2, 3, 4") usando la plantilla de la Plancha 2 (índice 1)
+                htmlResultado += "<strong>--- PLANCHAS " + intermedias.join(", ") + " (Todas son iguales) ---</strong><br>" + bloquesPlanchas[1].texto + "<br>";
+                
+                // Imprimimos la última plancha que cierra el proyecto
+                htmlResultado += "<strong>--- PLANCHA " + totalPlanchas + " (Cierre de pieza) ---</strong><br>" + bloquesPlanchas[totalPlanchas - 1].texto + "<br>";
+            } else {
+                // Si solo son 2 planchas en total, mostramos la Plancha 2 directo sin agrupar
+                htmlResultado += "<strong>--- PLANCHA 2 ---</strong><br>" + bloquesPlanchas[1].texto + "<br>";
+            }
         }
     }
 
     // 5. Inyectar los resultados en el contenedor del HTML
     const contenedorMarcas = document.getElementById("listaMarcas");
     if (contenedorMarcas) {
-        contenedorMarcas.innerHTML = listaMarcas;
+        contenedorMarcas.innerHTML = htmlResultado;
     }
 }
 
-// NUEVA: Función de validación requerida por tu HTML que causaba que el script se rompiera
+// Funciones de validación obligatorias para la interfaz
 function verificarMedidaPlancha() {
     const campo = document.getElementById("anchoPlancha");
     let valor = Number(campo.value);
@@ -141,9 +229,9 @@ function verificarBordes() {
 
     if (valor === "") {
         campo.value = 0;
-        if (canales > 1) { ultimoBorde = 0; }
-        return;
-    }
+
+    if (canales > 1) {ultimoBorde = 0; }
+        return;}
 
     const numero = Number(valor);
 
@@ -151,22 +239,18 @@ function verificarBordes() {
         alert("Debes ingresar un valor de bordes válido.");
         campo.value = ultimoBorde;
         return;
-    }
+        }
 
     ultimoBorde = numero;
     if (numero > 0) { ultimoBordePositivo = numero; }
-
+    
     if (canales === 1 && numero === 0) {
         campo.value = ultimoBordePositivo;
-        ultimoBorde = 0;
-    }
-}
+        ultimoBorde = 0;}}
 
 function verificarEspesor() {
     const campo = document.getElementById("espesor");
     const valor = campo.value;
-
-    if (valor === "" || Number(valor) < 1) {
-        campo.value = 1;
-    }
+    if (valor === "" || Number(valor) < 1) {campo.value = 1;
+}
 }
