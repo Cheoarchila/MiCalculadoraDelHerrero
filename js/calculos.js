@@ -39,7 +39,7 @@ function calcular() {
         let contador = 1;
         let marca = bordeReducido;
         let listaMarcas = "<strong>--- PLANCHA ÚNICA ---</strong><br>";
-        listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)<br>";
+        listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>";
         contador++;
 
         for (let i = 1; i <= canales; i++) {
@@ -50,10 +50,10 @@ function calcular() {
                 marca += bordeReducido;
                 listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm <strong>[CORTE]</strong><br>";
             } else {
-                listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)<br>";
+                listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>";
                 contador++;
                 marca += altoReducido;
-                listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)<br>";
+                listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + "<br>";
                 contador++;
             }
         }
@@ -73,11 +73,11 @@ function calcular() {
 
             if (numeroPlancha === 1) {
                 marca = bordeReducido;
-                marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)");
+                marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " ");
                 contador++;
             } else {
                 marca = altoReducido;
-                marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)");
+                marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " ");
                 contador++;
             }
 
@@ -101,7 +101,7 @@ function calcular() {
                 } else {
                     if (marcaSimuladaProfundidad <= anchoPlancha) {
                         marca = marcaSimuladaCanal;
-                        marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)");
+                        marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " ");
                         contador++;
                         
                         marca += altoReducido;
@@ -110,7 +110,7 @@ function calcular() {
                             canalActual++;
                             avanzarPlancha = true;
                         } else {
-                            marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm (Pliegue)");
+                            marcasDeEstaPlancha.push(contador + ". &nbsp;&nbsp; " + Math.round(marca) + " ");
                             contador++;
                             canalActual++;
                         }
