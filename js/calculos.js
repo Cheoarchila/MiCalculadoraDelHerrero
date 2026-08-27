@@ -1,10 +1,12 @@
-// Variables globales para el control de estados previos
+// Variables globales de respaldo (valores iniciales por defecto)
+let ultimaMedidaPlancha = 1200;
 let ultimaMedidaFinal = 1000;
 let ultimaProfundidad = 15;
 let ultimoBorde = 20;
 let ultimoBordePositivo = 20;
 
 function calcular() {
+    // CORREGIDO: Se obtiene correctamente el elemento anchoPlancha
     const anchoPlancha = Number(document.getElementById("anchoPlancha").value);
     const medidaFinal = Number(document.getElementById("medidaFinal").value);
     const canales = Number(document.getElementById("canales").value);
@@ -12,82 +14,87 @@ function calcular() {
     const bordes = Number(document.getElementById("bordes").value);
     const espesor = Number(document.getElementById("espesor").value);
 
+    // Cálculos estructurales
     const anchoCanal = medidaFinal / canales;
     const altoCanal = profundidad;
 
-    // Cálculo técnico del desarrollo de la chapa
+    // Fórmula de desarrollo original provista
     const desarrollo = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor) + ((canales - 1) * espesor);
     
-    document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
-    document.getElementById("altoCanal").textContent = Math.round(altoCanal);
-    document.getElementById("desarrollo").textContent = Math.round(desarrollo);
+    // Inyección de resultados en pantalla
+    document.getElementById("anchoCanal").textContent = Math.round(anchoCanal) + " mm";
+    document.getElementById("altoCanal").textContent = Math.round(altoCanal) + " mm";
+    document.getElementById("desarrollo").textContent = Math.round(desarrollo) + " mm";
 
-    // ==========================================
-    // CICLO DE MARCAS OPTIMIZADO Y NUMERADO
-    // ==========================================
-    
-    // 1. Calcular el ancho base usando "medidaFinal" en vez de una división con decimales
-    const jsonAnchoBase = Math.round(medidaFinal / canales); 
+    // --- Ciclo de Generación de Marcas (Actualizado con Lógica Taller) ---
+    let marca = bordes - espesor;
+    let listaMarcas = "1. Marca: " + Math.round(marca) + " mm<br>";
+    let contador = 2;
 
-    // 2. Definición de las medidas reducidas por el espesor del material
-    const bordeReducido = bordes - espesor;           // Ej: 20 - 1 = 19
-    const anchoPar = jsonAnchoBase;                   // Ej: Para canales pares = 111
-    const anchoImpar = anchoPar - (2 * espesor);      // Ej: Para canales impares = 109
-    const altoReducido = profundidad - (2 * espesor); // Ej: 15 - 2 = 13
+    const altoReducido = profundidad - (2 * espesor); // Mantiene las paredes en 13 mm reales
 
-    // Inicializar el contador visual de marcas
-    let contador = 1; 
-
-    // 3. Inicializar la cinta métrica con la primera marca (Borde inicial)
-    let marca = bordeReducido; 
-    let listaMarcas = contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm<br>"; 
-    contador++; 
-
-    // 4. Ciclo unificado que recorre todos los canales
-    for (let i = 1; i <= canales; i++) {
+    // El ciclo recorre dinámicamente cada canal uno por uno
+    for (let c = 1; c <= canales; c++) {
         
-        // Alternar el ancho según si el canal actual es impar o par
-        let anchoActual;
-        if (i % 2 !== 0) {
-            anchoActual = anchoImpar; // Canales impares (1, 3, 5...)
-        } else {
-            anchoActual = anchoPar;   // Canales pares (2, 4, 6...)
+        // Si el canal es IMPAR (1, 3, 5...), se reduce el espesor por ambos lados (-2)
+        if (c % 2 !== 0) {
+            marca += (anchoCanal - (2 * espesor));
+        } 
+        // Si el canal es PAR (2, 4, 6...), se toma la medida limpia de la máquina
+        else {
+            marca += anchoCanal;
         }
         
-        // Sumar el ancho del canal a la marca
-        marca += anchoActual;
-        listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm<br>";
-        contador++;
-        
-        // Si no es el último canal, sumar la profundidad de la pared divisoria
-        if (i < canales) {
+        listaMarcas += contador++ + ". Marca: " + Math.round(marca) + " mm<br>";
+
+        // Si todavía quedan más canales por procesar, añadimos la pestaña/pared
+        if (c < canales) {
             marca += altoReducido;
-            listaMarcas += contador + ". &nbsp;&nbsp; " + Math.round(marca) + " mm<br>";
-            contador++;
+            listaMarcas += contador++ + ". Marca: " + Math.round(marca) + " mm<br>";
         }
     }
 
-    // 5. Inyectar los resultados en el contenedor del HTML
-    const contenedorMarcas = document.getElementById("listaMarcas");
-    if (contenedorMarcas) {
-        contenedorMarcas.innerHTML = listaMarcas;
-    }
+    // Cierre del desarrollo: Sumamos el borde final limpio
+    marca += (bordes - espesor);
+    listaMarcas += contador + ". Marca Final: " + Math.round(marca) + " mm";
+
+    document.getElementById("listaMarcas").innerHTML = listaMarcas;
 }
 
-// NUEVA: Función de validación requerida por tu HTML que causaba que el script se rompiera
+// --- Funciones de Verificación y Validación ---
+
 function verificarMedidaPlancha() {
     const campo = document.getElementById("anchoPlancha");
     let valor = Number(campo.value);
+
     if (campo.value === "" || valor < 1) {
-        alert("Debes ingresar un ancho de plancha válido.");
-        campo.value = 1200;
-    } else {
-        campo.value = Math.floor(valor);
+        alert("Debes ingresar una Medida de Plancha válida.");
+        campo.value = ultimaMedidaPlancha;
+        return;
     }
+    valor = Math.floor(valor);
+    campo.value = valor;
+    ultimaMedidaPlancha = valor;
+}
+
+function verificarMedidaFinal() {
+    const campo = document.getElementById("medidaFinal");
+    let valor = Number(campo.value);
+
+    if (campo.value === "" || valor < 1) {
+        alert("Debes ingresar una Medida final válida.");
+        campo.value = ultimaMedidaFinal;
+        return;
+    }
+
+    valor = Math.floor(valor);
+    campo.value = valor;
+    ultimaMedidaFinal = valor; // Respalda el valor correcto actual
 }
 
 function verificarCanales() {
     let canales = Number(document.getElementById("canales").value);
+
     canales = Math.floor(canales);
     document.getElementById("canales").value = canales;
 
@@ -107,27 +114,13 @@ function verificarCanales() {
     }
 }
 
-function verificarMedidaFinal() {
-    const campo = document.getElementById("medidaFinal");
-    let valor = Number(campo.value);
-
-    if (campo.value === "" || valor < 1) {
-        alert("Debes ingresar una Medida final válida.");
-        campo.value = ultimaMedidaFinal;
-        return;
-    }
-
-    valor = Math.floor(valor);
-    campo.value = valor;
-    ultimaMedidaFinal = valor;
-}
-
 function verificarProfundidad() {
-    const profundidad = document.getElementById("profundidad").value;
+    const campo = document.getElementById("profundidad");
+    const profundidad = campo.value;
 
     if (profundidad === "" || Number(profundidad) < 1) {
         alert("Debes ingresar una profundidad válida.");
-        document.getElementById("profundidad").value = ultimaProfundidad;
+        campo.value = ultimaProfundidad;
         return;
     }
 
@@ -141,7 +134,9 @@ function verificarBordes() {
 
     if (valor === "") {
         campo.value = 0;
-        if (canales > 1) { ultimoBorde = 0; }
+        if (canales > 1) {
+            ultimoBorde = 0;
+        }
         return;
     }
 
@@ -154,7 +149,10 @@ function verificarBordes() {
     }
 
     ultimoBorde = numero;
-    if (numero > 0) { ultimoBordePositivo = numero; }
+
+    if (numero > 0) {
+        ultimoBordePositivo = numero;
+    }
 
     if (canales === 1 && numero === 0) {
         campo.value = ultimoBordePositivo;
