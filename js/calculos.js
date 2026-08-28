@@ -32,8 +32,9 @@ function calcular() {
     let contador = 2;
 
     const altoReducido = profundidad - (2 * espesor); // Mantiene las paredes en 13 mm reales
+    let corteDetectado = false;
 
-        // El ciclo recorre dinámicamente cada canal uno por uno
+    // El ciclo recorre dinámicamente cada canal uno por uno
     for (let c = 1; c <= canales; c++) {
         
         // Si el canal es IMPAR (1, 3, 5...), se reduce el espesor por ambos lados (-2)
@@ -50,13 +51,13 @@ function calcular() {
         // Si todavía quedan más canales por procesar, añadimos la pestaña/pared
         if (c < canales) {
             marca += altoReducido;
-            
-            // --- NUEVA REGLA DE CORTE DE IA ---
-            if (desarrollo > anchoPlancha && marca > anchoPlancha && !listaMarcas.includes("CORTE")) {
+
+            // REGLA DE CORTE: Si pasa el ancho de plancha en esta pestaña, insertamos el punto de corte en (profundidad - 2)
+            if (desarrollo > anchoPlancha && marca > anchoPlancha && !corteDetectado) {
                 let puntoCorte = (marca - altoReducido) + (profundidad - 2);
-                listaMarcas += "<b style='color: #dc2626;'>✂️ CORTE ➔ <span>" + Math.round(puntoCorte) + "</span></b><br>";
+                listaMarcas += contador++ + ".-) <span>" + Math.round(puntoCorte) + "</span> CORTE ➔<br>";
+                corteDetectado = true;
             }
-            // ----------------------------------
 
             listaMarcas += contador++ + ".-) <span>" + Math.round(marca) + "</span><br>";
         }
@@ -65,15 +66,6 @@ function calcular() {
     // Cierre del desarrollo: Sumamos el borde final limpio
     marca += (bordes - espesor);
     listaMarcas += contador + ".-) <span>" + Math.round(marca) + "</span>";
-
-    // --- AVISO EN PANTALLA DE CUÁNTAS PLANCHAS SE NECESITAN ---
-    if (desarrollo > anchoPlancha) {
-        const planchasNecesarias = Math.ceil(desarrollo / anchoPlancha);
-        listaMarcas += `<br><br><div style="background-color: #fef2f2; border: 2px dashed #ef4444; padding: 10px; border-radius: 6px; color: #991b1b; font-weight: bold; font-family: sans-serif; font-size: 1rem;">
-            ⚠️ ¡ATENCIÓN! El desarrollo (${Math.round(desarrollo)}mm) supera el ancho de la plancha (${anchoPlancha}mm).<br>
-            Necesitas usar un total de: ${planchasNecesarias} planchas.
-        </div>`;
-    }
 
     document.getElementById("listaMarcas").innerHTML = listaMarcas;
 }
