@@ -86,7 +86,7 @@ function calcular() {
     if (indiceCorte !== -1) {
         // --- CASO CON CORTE: PLANCHA 1 Y PLANCHA 2 ---
         
-        // GENERAR PLANCHA 1 (Igual que antes)
+        // GENERAR PLANCHA 1
         listaMarcasHTML1 = "<b>--- PLANCHA 1 ---</b><br>";
         for (let i = 0; i <= indiceCorte; i++) {
             listaMarcasHTML1 += marcasArray[i].num + ".-) <span>" + marcasArray[i].valor + "</span>" + marcasArray[i].texto + "<br>";
@@ -96,17 +96,18 @@ function calcular() {
         listaMarcasHTML2 = "<b>--- PLANCHA 2 (SOBRANTE) ---</b><br>";
         
         let nuevoContadorPlancha2 = 1;
-        let marcaBaseCorte = marcasArray[indiceCorte].valor;
+        // La marca base física para restar de la plancha original
+        let marcaBaseCorte = marcasArray[indiceCorte].valor; 
 
-        for (let i = indiceCorte; i < marcasArray.length; i++) {
-            // Medida real desde cero para la nueva chapa
+        // 1.-) PASO DE EMPALME: Muestra el valor de (profundidad - 2) y repite el número correlativo de la Plancha 1
+        let valorPestañaReducida = profundidad - 2;
+        listaMarcasHTML2 += nuevoContadorPlancha2++ + ".-) <span>" + valorPestañaReducida + "</span> &nbsp;&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;&nbsp; " + marcasArray[indiceCorte].num + ".-) <span>" + marcasArray[indiceCorte].valor + "</span><br>";
+
+        // Resto de marcas calculadas desde cero para la nueva chapa
+        for (let i = indiceCorte + 1; i < marcasArray.length; i++) {
             let medidaDesdeCero = marcasArray[i].valor - marcaBaseCorte;
             
-            // Texto especial indicando que el primer paso es el empalme
-            let aclaracion = (i === indiceCorte) ? " (EMPALME)" : "";
-
-            // Combinamos ambas columnas: Medida de Plancha 2 (desde cero) | Continuidad (Paso y Sumatoria original)
-            listaMarcasHTML2 += nuevoContadorPlancha2++ + ".-) <span>" + Math.round(medidaDesdeCero) + "</span>" + aclaracion + " &nbsp;&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;&nbsp; [Paso anterior: " + marcasArray[i].num + ".-) " + marcasArray[i].valor + "]<br>";
+            listaMarcasHTML2 += nuevoContadorPlancha2++ + ".-) <span>" + Math.round(medidaDesdeCero) + "</span> &nbsp;&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;&nbsp; " + marcasArray[i].num + ".-) <span>" + marcasArray[i].valor + "</span><br>";
         }
     } else {
         // --- CASO SIN CORTE ---
