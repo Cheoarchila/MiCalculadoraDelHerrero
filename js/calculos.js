@@ -28,7 +28,7 @@ function calcular() {
 
     // --- Ciclo de Generación de Marcas (Actualizado con Lógica Taller) ---
     let marca = bordes - espesor;
-    let listaMarcas = "1.-) " + Math.round(marca) + "<br>";
+    let listaMarcas = "1.-) <span>" + Math.round(marca) + "</span><br>";
     let contador = 2;
 
     const altoReducido = profundidad - (2 * espesor); // Mantiene las paredes en 13 mm reales
