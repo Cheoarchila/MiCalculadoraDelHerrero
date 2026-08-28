@@ -26,7 +26,7 @@ function calcular() {
     document.getElementById("altoCanal").textContent = Math.round(altoCanal);
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 
-    // --- Ciclo de Generation de Marcas ---
+    // --- Ciclo de Generación de Marcas ---
     let marca = bordes - espesor;
     let contador = 1;
 
@@ -53,7 +53,7 @@ function calcular() {
     marca += (bordes - espesor);
     marcasArray.push({ num: contador, valor: Math.round(marca), texto: "" });
 
-    // --- PROCESAMIENTO CÍCLICO ---
+    // --- PROCESAMIENTO CÍCLICO DE PLANCHAS ---
     let bloquesPlanchas = [];
     let i = 0;
     let valorPestañaReducida = profundidad - (2 * espesor);
@@ -65,9 +65,11 @@ function calcular() {
         let lineasMarcas = [];
         let indiceCorteEnEsteTramo = -1;
 
-        // Buscamos punto de corte
+        // Buscamos punto de corte proyectado
         for (let j = i + 1; j < marcasArray.length; j++) {
-            let medidaProyectadaDesdeCero = (bloquesPlanchas.length === 0) ? marcasArray[j].valor : (valorPestañaReducida + (marcasArray[j].valor - marcaBaseInicioTramo));
+            let medidaProyectadaDesdeCero = (bloquesPlanchas.length === 0) ? 
+                marcasArray[j].valor : 
+                (valorPestañaReducida + (marcasArray[j].valor - marcaBaseInicioTramo));
             
             if (medidaProyectadaDesdeCero > anchoPlancha) {
                 let posibleIndiceCorte = j - 1;
@@ -82,14 +84,15 @@ function calcular() {
             }
         }
 
-        // Guardamos las marcas de este bloque
+        // Guardamos las marcas correspondientes a esta chapa
         if (bloquesPlanchas.length === 0) {
             let finImpresion = (indiceCorteEnEsteTramo !== -1) ? indiceCorteEnEsteTramo : marcasArray.length - 1;
             for (let k = i; k <= finImpresion; k++) {
                 let sufijoCorte = (k === indiceCorteEnEsteTramo) ? " CORTE ➔" : "";
                 lineasMarcas.push(marcasArray[k].num + ".-) <span>" + marcasArray[k].valor + "</span>" + sufijoCorte);
             }
-            i = finImpresion; 
+            // Forzamos el avance del puntero. Si no avanzó, rompemos para evitar congelamiento
+            i = (finImpresion > i) ? finImpresion : i + 1; 
         } else {
             lineasMarcas.push(temporalContador++ + ".-) <span>" + Math.round(valorPestañaReducida) + "</span> &nbsp;&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;&nbsp; " + marcasArray[i].num + ".-) <span>" + marcasArray[i].valor + "</span>");
             let finImpresion = (indiceCorteEnEsteTramo !== -1) ? indiceCorteEnEsteTramo : marcasArray.length - 1;
@@ -99,7 +102,7 @@ function calcular() {
                 let sufijoCorte = (k === indiceCorteEnEsteTramo) ? " CORTE ➔" : "";
                 lineasMarcas.push(temporalContador++ + ".-) <span>" + Math.round(medidaDesdeCero) + "</span> &nbsp;&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;&nbsp; " + marcasArray[k].num + ".-) <span>" + marcasArray[k].valor + "</span>" + sufijoCorte);
             }
-            i = finImpresion;
+            i = (finImpresion > i) ? finImpresion : i + 1;
         }
 
         bloquesPlanchas.push({ esUltima: esUltima, contenido: lineasMarcas.join("<br>") + "<br>" });
@@ -113,26 +116,24 @@ function calcular() {
     if (bloquesPlanchas.length === 1) {
         htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas[0].contenido;
     } else {
-        // Imprimimos Plancha 1
         htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas[0].contenido;
 
         let totalPlanchas = bloquesPlanchas.length;
         
-        // Si hay mas de 2 planchas en total, significa que hay intermedias iguales (Plancha 2, Plancha 3, etc.)
         if (totalPlanchas > 2) {
             let listadoNumeros = [];
             for (let p = 2; p < totalPlanchas; p++) {
                 listadoNumeros.push(p);
             }
-            // Agrupa los títulos de las que compartan las mismas medidas exactas (ej: "PLANCHA 2, 3")
+            // Muestra una única lista maestra para todas las planchas intermedias idénticas
             htmlFinal += `<br><b>--- PLANCHA ${listadoNumeros.join(", ")} (SON IGUALES) ---</b><br>` + bloquesPlanchas[1].contenido;
         }
 
-        // Imprimimos la última plancha (sobrante)
         htmlFinal += `<br><b>--- PLANCHA ${totalPlanchas} (SOBRANTE) ---</b><br>` + bloquesPlanchas[totalPlanchas - 1].contenido;
     }
 
-    document.getElementById("contenedorPlanchas").innerHTML = htmlFinal;
+    // CORREGIDO: Se inyecta directamente en tu elemento HTML original
+    document.getElementById("listaMarcas").innerHTML = htmlFinal;
 }
 
 // --- Funciones de Verificación y Validación ---
