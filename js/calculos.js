@@ -45,12 +45,12 @@ function calcular() {
             marca += anchoCanal;
         }
         
-        listaMarcas += contador++ + Math.round(marca) + " mm<br>";
+        listaMarcas += contador++ + Math.round(marca) <br>;
 
         // Si todavía quedan más canales por procesar, añadimos la pestaña/pared
         if (c < canales) {
             marca += altoReducido;
-            listaMarcas += contador++ + ". Marca: " + Math.round(marca) + " mm<br>";
+            listaMarcas += contador++ + Math.round(marca) + " mm<br>";
         }
     }
 
