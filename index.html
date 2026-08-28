@@ -5,15 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Calculadora del Herrero si funciona</title>
-    <style>
-        /* Estilo simple para alinear los números de las marcas limpiamente */
+       <style>
+        /* Alineación perfecta estilo tabla de control */
         #listaMarcas {
-            font-family: monospace;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            font-family: monospace; /* Mantiene todos los caracteres del mismo ancho */
+            font-size: 1.2rem;
+            line-height: 1.8;
             margin-top: 10px;
         }
+
+        /* Esto alinea las unidades, decenas y centenas a la derecha */
+        #listaMarcas span {
+            display: inline-block;
+            width: 60px;         /* Espacio suficiente para números de hasta 4 dígitos */
+            text-align: right;   /* Empuja el número hacia la derecha */
+            font-weight: bold;
+            color: #1e293b;      /* Color oscuro profesional */
+        }
     </style>
+
 </head>
 
 <body>
