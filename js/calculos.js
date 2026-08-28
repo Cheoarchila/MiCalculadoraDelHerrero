@@ -23,8 +23,8 @@ function calcular() {
     
     // Inyección de resultados en pantalla
     document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
-    document.getElementById("altoCanal").textContent = Math.round(altoCanal) + " mm";
-    document.getElementById("desarrollo").textContent = Math.round(desarrollo) + " mm";
+    document.getElementById("altoCanal").textContent = Math.round(altoCanal);
+    document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 
     // --- Ciclo de Generación de Marcas (Actualizado con Lógica Taller) ---
     let marca = bordes - espesor;
