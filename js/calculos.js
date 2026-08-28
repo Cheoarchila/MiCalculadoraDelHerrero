@@ -34,6 +34,10 @@ function calcular() {
     const altoReducido = profundidad - (2 * espesor); // Mantiene las paredes en 13 mm reales
     let corteDetectado = false;
 
+    // Estructura para almacenar las marcas temporalmente antes de decidir cuál lleva el CORTE
+    let marcasArray = [];
+    marcasArray.push({ num: 1, valor: Math.round(marca), texto: "" });
+
     // El ciclo recorre dinámicamente cada canal uno por uno
     for (let c = 1; c <= canales; c++) {
         
@@ -46,28 +50,52 @@ function calcular() {
             marca += anchoCanal;
         }
         
-        listaMarcas += contador++ + ".-) <span>" + Math.round(marca) + "</span><br>";
+        marcasArray.push({ num: contador++, valor: Math.round(marca), texto: "" });
 
         // Si todavía quedan más canales por procesar, añadimos la pestaña/pared
         if (c < canales) {
             marca += altoReducido;
-
-            // REGLA DE CORTE: Si al sumar esta pestaña nos pasamos del ancho de plancha,
-            // significa que ESTA pestaña actual (que mide profundidad-2) es la última que cabe.
-            if (desarrollo > anchoPlancha && (marca + (anchoCanal - (2 * espesor))) > anchoPlancha && !corteDetectado) {
-                listaMarcas += contador++ + ".-) <span>" + Math.round(marca) + "</span> CORTE ➔<br>";
-                corteDetectado = true;
-            } else {
-                listaMarcas += contador++ + ".-) <span>" + Math.round(marca) + "</span><br>";
-            }
+            marcasArray.push({ num: contador++, valor: Math.round(marca), texto: "" });
         }
     }
 
     // Cierre del desarrollo: Sumamos el borde final limpio
     marca += (bordes - espesor);
-    listaMarcas += contador + ".-) <span>" + Math.round(marca) + "</span>";
+    marcasArray.push({ num: contador, valor: Math.round(marca), texto: "" });
 
-    document.getElementById("listaMarcas").innerHTML = listaMarcas;
+    // --- EVALUACIÓN DE CORTE GENERAL ---
+    if (desarrollo > anchoPlancha) {
+        // Buscamos el primer elemento que se pasa del ancho de la plancha
+        for (let i = 0; i < marcasArray.length; i++) {
+            if (marcasArray[i].valor > anchoPlancha) {
+                // El corte debe ir en la última marca que SÍ cupo dentro de la plancha
+                let indiceCorte = i - 1;
+                
+                // REGLA DE OBLIGATORIEDAD: El corte debe ser en una profundidad reducida.
+                // En tu lista de marcas, las profundidades reducidas siempre quedan en los pasos IMPARES (3, 5, 7, 9...)
+                // Si el índice nos da un paso par, retrocedemos al paso impar anterior para respetar la regla de taller.
+                if (marcasArray[indiceCorte].num % 2 === 0) {
+                    indiceCorte--;
+                }
+
+                if (indiceCorte >= 0) {
+                    marcasArray[indiceCorte].texto = " CORTE ➔";
+                }
+                break; // Ya encontramos el punto exacto, salimos del buscador
+            }
+        }
+    }
+
+    // --- RENDERIZADO FINAL EN PANTALLA ---
+    let listaMarcasHTML = "";
+    for (let i = 0; i < marcasArray.length; i++) {
+        listaMarcasHTML += marcasArray[i].num + ".-) <span>" + marcasArray[i].valor + "</span>" + marcasArray[i].texto;
+        if (i < marcasArray.length - 1) {
+            listaMarcasHTML += "<br>";
+        }
+    }
+
+    document.getElementById("listaMarcas").innerHTML = listaMarcasHTML;
 }
 
 // --- Funciones de Verificación y Validación ---
