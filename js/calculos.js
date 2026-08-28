@@ -26,7 +26,7 @@ function calcular() {
     document.getElementById("altoCanal").textContent = Math.round(altoCanal);
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 
-    // --- Ciclo de Generación de Marcas ---
+    // --- Ciclo de Generation de Marcas ---
     let marca = bordes - espesor;
     let contador = 1;
 
@@ -116,15 +116,16 @@ function calcular() {
         // Imprimimos Plancha 1
         htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas[0].contenido;
 
-        // Si hay planchas intermedias (todas son idénticas a la posición [1] del arreglo)
         let totalPlanchas = bloquesPlanchas.length;
+        
+        // Si hay mas de 2 planchas en total, significa que hay intermedias iguales (Plancha 2, Plancha 3, etc.)
         if (totalPlanchas > 2) {
-            // Ejemplo si son 4 planchas en total: "PLANCHA 2, 3"
-            let textoPlanchasIntermedias = "";
+            let listadoNumeros = [];
             for (let p = 2; p < totalPlanchas; p++) {
-                textoPlanchasIntermedias += (p === 2) ? `${p}` : `, ${p}`;
+                listadoNumeros.push(p);
             }
-            htmlFinal += `<br><b>--- PLANCHA ${textoPlanchasIntermedias} (SON IGUALES) ---</b><br>` + bloquesPlanchas[1].contenido;
+            // Agrupa los títulos de las que compartan las mismas medidas exactas (ej: "PLANCHA 2, 3")
+            htmlFinal += `<br><b>--- PLANCHA ${listadoNumeros.join(", ")} (SON IGUALES) ---</b><br>` + bloquesPlanchas[1].contenido;
         }
 
         // Imprimimos la última plancha (sobrante)
