@@ -22,13 +22,13 @@ function calcular() {
     const desarrollo = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor) + ((canales - 1) * espesor);
     
     // Inyección de resultados en pantalla
-    document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
-    document.getElementById("altoCanal").textContent = Math.round(altoCanal);
-    document.getElementById("desarrollo").textContent = Math.round(desarrollo);
+    document.getElementById("anchoCanal").textContent = Math.round(anchoCanal) + " mm";
+    document.getElementById("altoCanal").textContent = Math.round(altoCanal) + " mm";
+    document.getElementById("desarrollo").textContent = Math.round(desarrollo) + " mm";
 
     // --- Ciclo de Generación de Marcas (Actualizado con Lógica Taller) ---
     let marca = bordes - espesor;
-    let listaMarcas = "1.-) Math.round(marca) + " mm<br>";
+    let listaMarcas = "1. Marca: " + Math.round(marca) + " mm<br>";
     let contador = 2;
 
     const altoReducido = profundidad - (2 * espesor); // Mantiene las paredes en 13 mm reales
@@ -45,18 +45,18 @@ function calcular() {
             marca += anchoCanal;
         }
         
-        listaMarcas += contador++ + Math.round(marca) + " mm<br>";
+        listaMarcas += contador++ + ". Marca: " + Math.round(marca) + " mm<br>";
 
         // Si todavía quedan más canales por procesar, añadimos la pestaña/pared
         if (c < canales) {
             marca += altoReducido;
-            listaMarcas += contador++ +  Math.round(marca) + " mm<br>";
+            listaMarcas += contador++ + ". Marca: " + Math.round(marca) + " mm<br>";
         }
     }
 
     // Cierre del desarrollo: Sumamos el borde final limpio
     marca += (bordes - espesor);
-    listaMarcas += contador + ". Marca Final: " + Math.round(marca);
+    listaMarcas += contador + ". Marca Final: " + Math.round(marca) + " mm";
 
     document.getElementById("listaMarcas").innerHTML = listaMarcas;
 }
