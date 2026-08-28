@@ -50,13 +50,13 @@ function calcular() {
         // Si todavía quedan más canales por procesar, añadimos la pestaña/pared
         if (c < canales) {
             marca += altoReducido;
-            listaMarcas += contador++ + Math.round(marca) + " mm<br>";
+            listaMarcas += contador++ + Math.round(marca) + <br>;
         }
     }
 
     // Cierre del desarrollo: Sumamos el borde final limpio
     marca += (bordes - espesor);
-    listaMarcas += contador + ". Marca Final: " + Math.round(marca) + " mm";
+    listaMarcas += contador +  Math.round(marca);
 
     document.getElementById("listaMarcas").innerHTML = listaMarcas;
 }
