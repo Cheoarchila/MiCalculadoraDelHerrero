@@ -56,7 +56,7 @@ function calcular() {
 
     // Cierre del desarrollo: Sumamos el borde final limpio
     marca += (bordes - espesor);
-    listaMarcas += contador + ".-) <span>" + Math.round(marca) + ".-) "</span>";
+    listaMarcas += contador + ".-) <span>" + Math.round(marca) + ".-) + "</span>";
 
     document.getElementById("listaMarcas").innerHTML = listaMarcas;
 }
