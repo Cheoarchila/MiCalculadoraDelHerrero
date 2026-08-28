@@ -6,7 +6,7 @@ let ultimoBorde = 20;
 let ultimoBordePositivo = 20;
 
 function calcular() {
-    // CORREGIDO: Se obtiene correctamente el elemento anchoPlancha
+    // Obtención de valores numéricos de los inputs
     const anchoPlancha = Number(document.getElementById("anchoPlancha").value);
     const medidaFinal = Number(document.getElementById("medidaFinal").value);
     const canales = Number(document.getElementById("canales").value);
@@ -26,17 +26,13 @@ function calcular() {
     document.getElementById("altoCanal").textContent = Math.round(altoCanal);
     document.getElementById("desarrollo").textContent = Math.round(desarrollo);
 
-    // --- Ciclo de Generación de Marcas (Actualizado con Lógica Taller) ---
+    // --- Ciclo de Generación de Marcas ---
     let marca = bordes - espesor;
-    let listaMarcas = "1.-) <span>" + Math.round(marca) + "</span><br>";
-    let contador = 2;
+    let contador = 1;
 
     const altoReducido = profundidad - (2 * espesor); // Mantiene las paredes en 13 mm reales
-    let corteDetectado = false;
-
-    // Estructura para almacenar las marcas temporalmente antes de decidir cuál lleva el CORTE
     let marcasArray = [];
-    marcasArray.push({ num: 1, valor: Math.round(marca), texto: "" });
+    marcasArray.push({ num: contador++, valor: Math.round(marca), texto: "" });
 
     // El ciclo recorre dinámicamente cada canal uno por uno
     for (let c = 1; c <= canales; c++) {
@@ -63,17 +59,17 @@ function calcular() {
     marca += (bordes - espesor);
     marcasArray.push({ num: contador, valor: Math.round(marca), texto: "" });
 
-    // --- EVALUACIÓN DE CORTE GENERAL ---
+    let listaMarcasHTML1 = "";
+    let listaMarcasHTML2 = "";
+    let indiceCorte = -1;
+
+    // --- EVALUACIÓN DE CORTE Y EMPALME ---
     if (desarrollo > anchoPlancha) {
-        // Buscamos el primer elemento que se pasa del ancho de la plancha
         for (let i = 0; i < marcasArray.length; i++) {
             if (marcasArray[i].valor > anchoPlancha) {
-                // El corte debe ir en la última marca que SÍ cupo dentro de la plancha
-                let indiceCorte = i - 1;
+                indiceCorte = i - 1;
                 
-                // REGLA DE OBLIGATORIEDAD: El corte debe ser en una profundidad reducida.
-                // En tu lista de marcas, las profundidades reducidas siempre quedan en los pasos IMPARES (3, 5, 7, 9...)
-                // Si el índice nos da un paso par, retrocedemos al paso impar anterior para respetar la regla de taller.
+                // Si el índice nos da un paso par, retrocedemos al paso impar anterior (pestaña reducida)
                 if (marcasArray[indiceCorte].num % 2 === 0) {
                     indiceCorte--;
                 }
@@ -81,21 +77,51 @@ function calcular() {
                 if (indiceCorte >= 0) {
                     marcasArray[indiceCorte].texto = " CORTE ➔";
                 }
-                break; // Ya encontramos el punto exacto, salimos del buscador
+                break;
             }
         }
     }
 
-    // --- RENDERIZADO FINAL EN PANTALLA ---
-    let listaMarcasHTML = "";
-    for (let i = 0; i < marcasArray.length; i++) {
-        listaMarcasHTML += marcasArray[i].num + ".-) <span>" + marcasArray[i].valor + "</span>" + marcasArray[i].texto;
-        if (i < marcasArray.length - 1) {
-            listaMarcasHTML += "<br>";
+    // --- RENDERIZADO EN PANTALLA ---
+    if (indiceCorte !== -1) {
+        // --- CASO CON CORTE: PLANCHA 1 Y PLANCHA 2 ---
+        
+        // GENERAR PLANCHA 1 (Igual que antes)
+        listaMarcasHTML1 = "<b>--- PLANCHA 1 ---</b><br>";
+        for (let i = 0; i <= indiceCorte; i++) {
+            listaMarcasHTML1 += marcasArray[i].num + ".-) <span>" + marcasArray[i].valor + "</span>" + marcasArray[i].texto + "<br>";
         }
+
+        // GENERAR PLANCHA 2 (SOBRANTE)
+        listaMarcasHTML2 = "<b>--- PLANCHA 2 (SOBRANTE) ---</b><br>";
+        
+        let nuevoContadorPlancha2 = 1;
+        let marcaBaseCorte = marcasArray[indiceCorte].valor;
+
+        for (let i = indiceCorte; i < marcasArray.length; i++) {
+            // Medida real desde cero para la nueva chapa
+            let medidaDesdeCero = marcasArray[i].valor - marcaBaseCorte;
+            
+            // Texto especial indicando que el primer paso es el empalme
+            let aclaracion = (i === indiceCorte) ? " (EMPALME)" : "";
+
+            // Combinamos ambas columnas: Medida de Plancha 2 (desde cero) | Continuidad (Paso y Sumatoria original)
+            listaMarcasHTML2 += nuevoContadorPlancha2++ + ".-) <span>" + Math.round(medidaDesdeCero) + "</span>" + aclaracion + " &nbsp;&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;&nbsp; [Paso anterior: " + marcasArray[i].num + ".-) " + marcasArray[i].valor + "]<br>";
+        }
+    } else {
+        // --- CASO SIN CORTE ---
+        listaMarcasHTML1 = "";
+        for (let i = 0; i < marcasArray.length; i++) {
+            listaMarcasHTML1 += marcasArray[i].num + ".-) <span>" + marcasArray[i].valor + "</span>";
+            if (i < marcasArray.length - 1) {
+                listaMarcasHTML1 += "<br>";
+            }
+        }
+        listaMarcasHTML2 = "";
     }
 
-    document.getElementById("listaMarcas").innerHTML = listaMarcasHTML;
+    document.getElementById("listaMarcas").innerHTML = listaMarcasHTML1;
+    document.getElementById("listaMarcas2").innerHTML = listaMarcasHTML2;
 }
 
 // --- Funciones de Verificación y Validación ---
