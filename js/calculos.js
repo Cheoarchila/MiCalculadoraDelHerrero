@@ -22,7 +22,7 @@ function calcular() {
     const desarrollo = (bordes * 2) + medidaFinal + ((canales - 1) * profundidad) - (canales * 4 * espesor) + ((canales - 1) * espesor);
     
     // Inyección de resultados en pantalla
-    document.getElementById("anchoCanal").textContent = Math.round(anchoCanal) + " mm";
+    document.getElementById("anchoCanal").textContent = Math.round(anchoCanal);
     document.getElementById("altoCanal").textContent = Math.round(altoCanal) + " mm";
     document.getElementById("desarrollo").textContent = Math.round(desarrollo) + " mm";
 
