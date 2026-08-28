@@ -96,16 +96,18 @@ function calcular() {
         listaMarcasHTML2 = "<b>--- PLANCHA 2 (SOBRANTE) ---</b><br>";
         
         let nuevoContadorPlancha2 = 1;
-        // La marca base física para restar de la plancha original
         let marcaBaseCorte = marcasArray[indiceCorte].valor; 
+        let valorPestañaReducida = profundidad - (2 * espesor); // Medida base inicial (13 mm)
 
-        // 1.-) PASO DE EMPALME: Muestra el valor de (profundidad - 2) y repite el número correlativo de la Plancha 1
-        let valorPestañaReducida = profundidad - 2;
-        listaMarcasHTML2 += nuevoContadorPlancha2++ + ".-) <span>" + valorPestañaReducida + "</span> &nbsp;&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;&nbsp; " + marcasArray[indiceCorte].num + ".-) <span>" + marcasArray[indiceCorte].valor + "</span><br>";
+        // 1.-) PASO DE EMPALME: Muestra los 13mm de la pestaña y repite el número correlativo
+        listaMarcasHTML2 += nuevoContadorPlancha2++ + ".-) <span>" + Math.round(valorPestañaReducida) + "</span> &nbsp;&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;&nbsp; " + marcasArray[indiceCorte].num + ".-) <span>" + marcasArray[indiceCorte].valor + "</span><br>";
 
-        // Resto de marcas calculadas desde cero para la nueva chapa
+        // Resto de marcas calculadas sumando consecutivamente sobre la base de los 13mm
         for (let i = indiceCorte + 1; i < marcasArray.length; i++) {
-            let medidaDesdeCero = marcasArray[i].valor - marcaBaseCorte;
+            // Distancia real del tramo original
+            let distanciaFaltante = marcasArray[i].valor - marcaBaseCorte;
+            // Sumamos la distancia al desfase inicial de 13 mm para que todo calce perfecto
+            let medidaDesdeCero = valorPestañaReducida + distanciaFaltante;
             
             listaMarcasHTML2 += nuevoContadorPlancha2++ + ".-) <span>" + Math.round(medidaDesdeCero) + "</span> &nbsp;&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;&nbsp; " + marcasArray[i].num + ".-) <span>" + marcasArray[i].valor + "</span><br>";
         }
