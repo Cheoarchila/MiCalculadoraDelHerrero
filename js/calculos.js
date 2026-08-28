@@ -28,7 +28,7 @@ function calcular() {
 
     // --- Ciclo de Generación de Marcas (Actualizado con Lógica Taller) ---
     let marca = bordes - espesor;
-    let listaMarcas = "1.-)    " + Math.round(marca) + " <br>";
+    let listaMarcas = "1.-)    " + Math.round(marca) + "<br>";
     let contador = 2;
 
     const altoReducido = profundidad - (2 * espesor); // Mantiene las paredes en 13 mm reales
@@ -45,12 +45,12 @@ function calcular() {
             marca += anchoCanal;
         }
         
-        listaMarcas += contador++ + ".-    )" + Math.round(marca) + " <br>";
+        listaMarcas += contador++ + ".-    )" + Math.round(marca) + "<br>";
 
         // Si todavía quedan más canales por procesar, añadimos la pestaña/pared
         if (c < canales) {
             marca += altoReducido;
-            listaMarcas += contador++ + ".-)    " + Math.round(marca) + " <br>";
+            listaMarcas += contador++ + ".-)    " + Math.round(marca) + "<br>";
         }
     }
 
