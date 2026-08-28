@@ -52,14 +52,14 @@ function calcular() {
         if (c < canales) {
             marca += altoReducido;
 
-            // REGLA DE CORTE: Si pasa el ancho de plancha en esta pestaña, insertamos el punto de corte en (profundidad - 2)
-            if (desarrollo > anchoPlancha && marca > anchoPlancha && !corteDetectado) {
-                let puntoCorte = (marca - altoReducido) + (profundidad - 2);
-                listaMarcas += contador++ + ".-) <span>" + Math.round(puntoCorte) + "</span> CORTE ➔<br>";
+            // REGLA DE CORTE: Si al sumar esta pestaña nos pasamos del ancho de plancha,
+            // significa que ESTA pestaña actual (que mide profundidad-2) es la última que cabe.
+            if (desarrollo > anchoPlancha && (marca + (anchoCanal - (2 * espesor))) > anchoPlancha && !corteDetectado) {
+                listaMarcas += contador++ + ".-) <span>" + Math.round(marca) + "</span> CORTE ➔<br>";
                 corteDetectado = true;
+            } else {
+                listaMarcas += contador++ + ".-) <span>" + Math.round(marca) + "</span><br>";
             }
-
-            listaMarcas += contador++ + ".-) <span>" + Math.round(marca) + "</span><br>";
         }
     }
 
