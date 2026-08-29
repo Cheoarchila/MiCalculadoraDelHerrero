@@ -144,13 +144,13 @@ function calcular() {
         if (i >= marcasArray.length - 1) break;
     }
 
-    // --- RENDERIZADO VISUAL ---
+    // --- RENDERIZADO VISUAL CORREGIDO ---
     let htmlFinal = "";
 
     if (bloquesPlanchas.length === 1) {
-        htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas.contenido;
+        htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas[0].contenido;
     } else {
-        htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas.contenido;
+        htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas[0].contenido;
 
         let totalPlanchas = bloquesPlanchas.length;
         
@@ -159,7 +159,7 @@ function calcular() {
             for (let p = 2; p < totalPlanchas; p++) {
                 listadoNumeros.push(p);
             }
-            htmlFinal += `<br><b>--- PLANCHA ${listadoNumeros.join(", ")} (SON IGUALES) ---</b><br>` + bloquesPlanchas.contenido;
+            htmlFinal += `<br><b>--- PLANCHA ${listadoNumeros.join(", ")} (SON IGUALES) ---</b><br>` + bloquesPlanchas[1].contenido;
         }
 
         htmlFinal += `<br><b>--- PLANCHA ${totalPlanchas} (SOBRANTE) ---</b><br>` + bloquesPlanchas[totalPlanchas - 1].contenido;
