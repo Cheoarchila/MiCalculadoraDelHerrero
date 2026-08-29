@@ -53,7 +53,7 @@ function calcular() {
             marca += altoReducido;
             // Pasos impares: Acumulamos el ancho del canal limpio
             controlAcumulado += anchoCanal;
-            marcasArray.push({ num: contador++, valor: Math.round(controlAcumulado), control: Math.round(controlAcumulado), texto: "" });
+            marcasArray.push({ num: contador++, valor: Math.round(marca), control: Math.round(controlAcumulado), texto: "" });
         }
     }
 
@@ -66,12 +66,13 @@ function calcular() {
     let i = 0;
     let valorPestañaReducida = profundidad - (2 * espesor);
 
-    // Texto fijo del encabezado alineado con espacios en formato monospace
-    const encabezadoColumnas = "<span style='width:70px; display:inline-block; color:#64748b;'>MARCAS</span><span style='width:80px; display:inline-block; text-align:right; color:#64748b;'>CONTROL</span><br>";
+    // Encabezado con anchos fijos alineados para formato monospace
+    const encabezadoColumnas = "<span style='width:130px; display:inline-block; color:#64748b;'>MARCAS</span><span style='width:130px; display:inline-block; color:#64748b;'>CONTROL</span><br>";
 
     while (i < marcasArray.length) {
         let esUltima = true;
         let marcaBaseInicioTramo = marcasArray[i].valor;
+        let temporalContador = 1;
         let lineasMarcas = [];
         let indiceCorteEnEsteTramo = -1;
 
@@ -99,28 +100,44 @@ function calcular() {
             let finImpresion = (indiceCorteEnEsteTramo !== -1) ? indiceCorteEnEsteTramo : marcasArray.length - 1;
             for (let k = i; k <= finImpresion; k++) {
                 let sufijoCorte = (k === indiceCorteEnEsteTramo) ? " CORTE ➔" : "";
-                let valorCtrl = (marcasArray[k].control !== null) ? marcasArray[k].control : "";
                 
-                lineasMarcas.push("<span>" + marcasArray[k].valor + "</span><span style='width:80px; display:inline-block; text-align:right; font-weight:bold; color:#0f766e;'>" + valorCtrl + "</span>" + sufijoCorte);
+                // Formateamos Columna Izquierda (Marcas)
+                let textoMarca = marcasArray[k].num + ".-) <span>" + marcasArray[k].valor + "</span>";
+                
+                // Formateamos Columna Derecha (Control) si le corresponde
+                let textoControl = "";
+                if (marcasArray[k].control !== null) {
+                    textoControl = marcasArray[k].num + ".-) <span>" + marcasArray[k].control + "</span>";
+                }
+
+                lineasMarcas.push("<span style='width:130px; display:inline-block;'>" + textoMarca + "</span><span style='width:130px; display:inline-block; font-weight:bold; color:#0f766e;'>" + textoControl + "</span>" + sufijoCorte);
             }
             i = (finImpresion > i) ? finImpresion : i + 1; 
         } else {
-            // Planchas siguientes: La primera marca es la pestaña reducida (sin control)
-            lineasMarcas.push("<span>" + Math.round(valorPestañaReducida) + "</span><span style='width:80px; display:inline-block; text-align:right;'></span>");
+            // Planchas siguientes: La primera marca es la pestaña reducida
+            let textoMarcaBase = temporalContador + ".-) <span>" + Math.round(valorPestañaReducida) + "</span>";
+            lineasMarcas.push("<span style='width:130px; display:inline-block;'>" + textoMarcaBase + "</span><span style='width:130px; display:inline-block;'></span>");
+            temporalContador++;
             
             let finImpresion = (indiceCorteEnEsteTramo !== -1) ? indiceCorteEnEsteTramo : marcasArray.length - 1;
             for (let k = i + 1; k <= finImpresion; k++) {
                 let distanciaFaltante = marcasArray[k].valor - marcaBaseInicioTramo;
                 let medidaDesdeCero = valorPestañaReducida + distanciaFaltante;
                 let sufijoCorte = (k === indiceCorteEnEsteTramo) ? " CORTE ➔" : "";
-                let valorCtrl = (marcasArray[k].control !== null) ? marcasArray[k].control : "";
                 
-                lineasMarcas.push("<span>" + Math.round(medidaDesdeCero) + "</span><span style='width:80px; display:inline-block; text-align:right; font-weight:bold; color:#0f766e;'>" + valorCtrl + "</span>" + sufijoCorte);
+                let textoMarca = temporalContador + ".-) <span>" + Math.round(medidaDesdeCero) + "</span>";
+                
+                let textoControl = "";
+                if (marcasArray[k].control !== null) {
+                    textoControl = temporalContador + ".-) <span>" + marcasArray[k].control + "</span>";
+                }
+                temporalContador++;
+
+                lineasMarcas.push("<span style='width:130px; display:inline-block;'>" + textoMarca + "</span><span style='width:130px; display:inline-block; font-weight:bold; color:#0f766e;'>" + textoControl + "</span>" + sufijoCorte);
             }
             i = (finImpresion > i) ? finImpresion : i + 1;
         }
 
-        // Unimos el encabezado fijo con el listado de números puros
         bloquesPlanchas.push({ esUltima: esUltima, contenido: encabezadoColumnas + lineasMarcas.join("<br>") + "<br>" });
         
         if (i >= marcasArray.length - 1) break;
