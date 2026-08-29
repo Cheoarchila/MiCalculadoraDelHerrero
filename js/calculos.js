@@ -101,13 +101,13 @@ function calcular() {
             for (let k = i; k <= finImpresion; k++) {
                 let sufijoCorte = (k === indiceCorteEnEsteTramo) ? " CORTE ➔" : "";
                 
-                // Formateamos Columna Izquierda (Marcas)
+                // Formateamos Columna Izquierda (Marcas) con su numeración original
                 let textoMarca = marcasArray[k].num + ".-) <span>" + marcasArray[k].valor + "</span>";
                 
-                // Formateamos Columna Derecha (Control) si le corresponde
+                // Formateamos Columna Derecha (Control) limpia con el número directo
                 let textoControl = "";
                 if (marcasArray[k].control !== null) {
-                    textoControl = marcasArray[k].num + ".-) <span>" + marcasArray[k].control + "</span>";
+                    textoControl = "<span>" + marcasArray[k].control + "</span>";
                 }
 
                 lineasMarcas.push("<span style='width:130px; display:inline-block;'>" + textoMarca + "</span><span style='width:130px; display:inline-block; font-weight:bold; color:#0f766e;'>" + textoControl + "</span>" + sufijoCorte);
@@ -127,9 +127,10 @@ function calcular() {
                 
                 let textoMarca = temporalContador + ".-) <span>" + Math.round(medidaDesdeCero) + "</span>";
                 
+                // Columna Control limpia sin prefijos redundantes
                 let textoControl = "";
                 if (marcasArray[k].control !== null) {
-                    textoControl = temporalContador + ".-) <span>" + marcasArray[k].control + "</span>";
+                    textoControl = "<span>" + marcasArray[k].control + "</span>";
                 }
                 temporalContador++;
 
@@ -147,9 +148,9 @@ function calcular() {
     let htmlFinal = "";
 
     if (bloquesPlanchas.length === 1) {
-        htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas[0].contenido;
+        htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas.contenido;
     } else {
-        htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas[0].contenido;
+        htmlFinal += `<b>--- PLANCHA 1 ---</b><br>` + bloquesPlanchas.contenido;
 
         let totalPlanchas = bloquesPlanchas.length;
         
@@ -158,7 +159,7 @@ function calcular() {
             for (let p = 2; p < totalPlanchas; p++) {
                 listadoNumeros.push(p);
             }
-            htmlFinal += `<br><b>--- PLANCHA ${listadoNumeros.join(", ")} (SON IGUALES) ---</b><br>` + bloquesPlanchas[1].contenido;
+            htmlFinal += `<br><b>--- PLANCHA ${listadoNumeros.join(", ")} (SON IGUALES) ---</b><br>` + bloquesPlanchas.contenido;
         }
 
         htmlFinal += `<br><b>--- PLANCHA ${totalPlanchas} (SOBRANTE) ---</b><br>` + bloquesPlanchas[totalPlanchas - 1].contenido;
