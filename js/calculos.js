@@ -1,9 +1,11 @@
 // Variables globales de respaldo (valores iniciales por defecto)
 let ultimaMedidaPlancha = 1200;
 let ultimaMedidaFinal = 1000;
+let ultimoCanalCantidad = 3; 
 let ultimaProfundidad = 15;
 let ultimoBorde = 20;
 let ultimoBordePositivo = 20;
+let ultimoEspesor = 1;      
 
 function calcular() {
     // Obtención de valores numéricos de los inputs
@@ -120,7 +122,7 @@ function calcular() {
             temporalContador++;
             
             let finImpresion = (indiceCorteEnEsteTramo !== -1) ? indiceCorteEnEsteTramo : marcasArray.length - 1;
-            for (let k = i + 1; k <= finImpresion; k++) {
+            for (let k = i; k <= finImpresion; k++) {
                 let distanciaFaltante = marcasArray[k].valor - marcaBaseInicioTramo;
                 let medidaDesdeCero = valorPestañaReducida + distanciaFaltante;
                 let sufijoCorte = (k === indiceCorteEnEsteTramo) ? " CORTE ➔" : "";
@@ -196,7 +198,7 @@ function verificarMedidaFinal() {
 
     valor = Math.floor(valor);
     campo.value = valor;
-    ultimaMedidaFinal = valor; // Respalda el valor correcto actual
+    ultimaMedidaFinal = valor; 
 }
 
 function verificarCanales() {
@@ -274,4 +276,12 @@ function verificarEspesor() {
     if (valor === "" || Number(valor) < 1) {
         campo.value = 1;
     }
+}
+
+function abrirPantalla(idPantalla) {
+    document.getElementById("pantallaInicio").classList.add("oculto");
+    document.getElementById("pantallaAcanalados").classList.add("oculto");
+    document.getElementById("pantalla90Grados").classList.add("oculto");
+    
+    document.getElementById(idPantalla).classList.remove("oculto");
 }
