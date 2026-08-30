@@ -1,79 +1,109 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Calculadora del Herrero si funciona</title>
-           <style>
-        /* Alineación perfecta estilo tabla de control */
-        #listaMarcas, #listaMarcas2 {
-            font-family: monospace; /* Mantiene todos los caracteres del mismo ancho */
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-top: 10px;
-        }
-
-        /* Esto alinea las unidades, decenas y centenas a la derecha */
-        #listaMarcas span, #listaMarcas2 span {
-            display: inline-block;
-            width: 60px;         /* Espacio suficiente para números de hasta 4 dígitos */
-            text-align: right;   /* Empuja el número hacia la derecha */
-            font-weight: bold;
-            color: #1e293b;      /* Color oscuro profesional */
-        }
-    </style>
-
-
+    <!-- Vinculación del archivo de estilos -->
+    <link rel="stylesheet" href="estilos.css">
 </head>
-
 <body>
 
     <h1>Mi Calculadora del Herrero</h1>
 
-    <h2>Acanalado a 90°</h2>
+    <!-- ====================================== -->
+    <!-- PANTALLA 1: MENÚ PRINCIPAL -->
+    <!-- ====================================== -->
+    <section id="pantallaInicio">
+        <div class="tarjeta" onclick="abrirPantalla('pantallaAcanalados')">
+            <div class="icono">📏</div>
+            <div>
+                <h2>Acanalado</h2>
+                <p>90° - 45° - Machimbrado</p>
+            </div>
+        </div>
+        <div class="tarjeta">
+            <div class="icono">🏠</div>
+            <div>
+                <h2>Techos</h2>
+                <p>Próximamente</p>
+            </div>
+        </div>
+    </section>
 
-    <label for="anchoPlancha">Ancho de plancha:</label>
-    <input type="number" id="anchoPlancha" value="1200" step="1" onkeydown="return event.key !== '.' && event.key !== ','" onblur="verificarMedidaPlancha()">
-    <br><br>
-    
-    <label>Medida final:</label>
-    <input type="number" id="medidaFinal" value="1000" step="1" onkeydown="return event.key !== '.' && event.key !== ','" onblur="verificarMedidaFinal()">
-    <br><br>
+    <!-- ====================================== -->
+    <!-- PANTALLA 2: ACANALADOS -->
+    <!-- ====================================== -->
+    <section id="pantallaAcanalados" class="oculto">
+        <button class="volver" onclick="abrirPantalla('pantallaInicio')">← Volver al Menú</button>
+        <h2>Acanalados</h2>
+        <div class="tarjeta" onclick="abrirPantalla('pantalla90Grados')">
+            <div class="icono">📐</div>
+            <div>
+                <h2>90 Grados</h2>
+                <p>Cálculos avanzados con corte y fraccionamiento</p>
+            </div>
+        </div>
+        <div class="tarjeta">
+            <div class="icono">📏</div>
+            <div>
+                <h2>45 Grados</h2>
+                <p>Próximamente</p>
+            </div>
+        </div>
+    </section>
 
-    <label>Canales:</label>
-    <input type="number" id="canales" value="3" step="1" onblur="verificarCanales()">
-    <br><br>
+    <!-- ====================================== -->
+    <!-- PANTALLA 3: CALCULADORA UNIFICADA 90° -->
+    <!-- ====================================== -->
+    <section id="pantalla90Grados" class="oculto">
+        <!-- 2 BOTONES DE NAVEGACIÓN AGREGADOS EN LA ENTRADA -->
+        <div style="margin-bottom: 15px;">
+            <button class="volver" style="margin-right: 10px;" onclick="abrirPantalla('pantallaInicio')">← Menú Principal</button>
+            <button class="volver" onclick="abrirPantalla('pantallaAcanalados')">← Volver a Acanalados</button>
+        </div>
 
-    <label>Profundidad:</label>
-    <input type="number" id="profundidad" value="15" onblur="verificarProfundidad()">
-    <br><br>
+        <h2>Calculadora de Acanalado a 90°</h2>
 
-    <label>Bordes:</label>
-    <input type="number" id="bordes" value="20" onblur="verificarBordes()">
-    <br><br>
+        <div class="fila">
+            <label for="anchoPlancha">Ancho de plancha:</label>
+            <input type="number" id="anchoPlancha" value="1200" step="1" onkeydown="return event.key !== '.' && event.key !== ','" onblur="verificarMedidaPlancha()">
+        </div>
+        <div class="fila">
+            <label for="medidaFinal">Medida final:</label>
+            <input type="number" id="medidaFinal" value="1000" step="1" onkeydown="return event.key !== '.' && event.key !== ','" onblur="verificarMedidaFinal()">
+        </div>
+        <div class="fila">
+            <label for="canales">Canales:</label>
+            <input type="number" id="canales" value="3" step="1" onblur="verificarCanales()">
+        </div>
+        <div class="fila">
+            <label for="profundidad">Profundidad:</label>
+            <input type="number" id="profundidad" value="15" onblur="verificarProfundidad()">
+        </div>
+        <div class="fila">
+            <label for="bordes">Bordes:</label>
+            <input type="number" id="bordes" value="20" onblur="verificarBordes()">
+        </div>
+        <div class="fila">
+            <label for="espesor">Espesor:</label>
+            <input type="number" id="espesor" value="1" onblur="verificarEspesor()">
+        </div>
 
-    <label>Espesor:</label>
-    <input type="number" id="espesor" value="1" onblur="verificarEspesor()">
-    <br><br>
+        <button type="button" class="btn-calcular" onclick="calcular()">Calcular</button>
 
-    <button onclick="calcular()">Calcular</button>
-
-    <h3>Resultado</h3>
-
-    <p>Ancho de canal: <span id="anchoCanal">-</span></p>
-    <p>Alto de canal: <span id="altoCanal">-</span></p>
-    <p>Desarrollo: <span id="desarrollo">-</span></p>
+        <h3>Resultado</h3>
+        <p>Ancho de canal: <span id="anchoCanal">-</span> mm</p>
+        <p>Alto de canal: <span id="altoCanal">-</span> mm</p>
+        <p>Desarrollo: <span id="desarrollo">-</span> mm</p>
 
         <div id="marcas">
-        <h3>Marcas</h3>
-        <div id="listaMarcas"></div>
-        <!-- AGREGA ESTA LÍNEA AQUÍ ABAJO -->
-        <div id="listaMarcas2"></div>
-    </div>
+            <h3>Marcas y Controles por Plancha</h3>
+            <div id="listaMarcas"></div>
+        </div>
+    </section>
 
-
-    <script src="js/calculos.js"></script>
+    <!-- Vinculación del archivo lógico de programación -->
+    <script src="script.js"></script>
 </body>
-
 </html>
