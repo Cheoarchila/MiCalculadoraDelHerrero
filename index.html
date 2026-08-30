@@ -3,105 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Calculadora del Herrero si funciona</title>
+    <title>Mi Calculadora del Herrero</title>
     <!-- Vinculación del archivo de estilos -->
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 
-    <h1>Mi Calculadora del Herrero</h1>
+    <header class="encabezado-principal">
+        <h1>Mi Calculadora del Herrero</h1>
+    </header>
 
-    <!-- ====================================== -->
-    <!-- PANTALLA 1: MENÚ PRINCIPAL -->
-    <!-- ====================================== -->
-    <section id="pantallaInicio">
-        <div class="tarjeta" onclick="abrirPantalla('pantallaAcanalados')">
-            <div class="icono">📏</div>
-            <div>
-                <h2>Acanalado</h2>
-                <p>90° - 45° - Machimbrado</p>
+    <main class="contenedor-app">
+        <!-- ====================================== -->
+        <!-- PANTALLA 1: MENÚ PRINCIPAL -->
+        <!-- ====================================== -->
+        <section id="pantallaInicio" class="pantalla-seccion">
+            <div class="tarjeta" onclick="abrirPantalla('pantallaAcanalados')">
+                <div class="icono">📏</div>
+                <div class="tarjeta-info">
+                    <h2>Acanalado</h2>
+                    <p>90° - 45° - Machimbrado</p>
+                </div>
             </div>
-        </div>
-        <div class="tarjeta">
-            <div class="icono">🏠</div>
-            <div>
-                <h2>Techos</h2>
-                <p>Próximamente</p>
+            <div class="tarjeta tarjeta-bloqueada">
+                <div class="icono">🏠</div>
+                <div class="tarjeta-info">
+                    <h2>Techos</h2>
+                    <p>Próximamente</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ====================================== -->
-    <!-- PANTALLA 2: ACANALADOS -->
-    <!-- ====================================== -->
-    <section id="pantallaAcanalados" class="oculto">
-        <button class="volver" onclick="abrirPantalla('pantallaInicio')">← Volver al Menú</button>
-        <h2>Acanalados</h2>
-        <div class="tarjeta" onclick="abrirPantalla('pantalla90Grados')">
-            <div class="icono">📐</div>
-            <div>
-                <h2>90 Grados</h2>
-                <p>Cálculos avanzados con corte y fraccionamiento</p>
+        <!-- ====================================== -->
+        <!-- PANTALLA 2: ACANALADOS -->
+        <!-- ====================================== -->
+        <section id="pantallaAcanalados" class="pantalla-seccion oculto">
+            <button class="volver" onclick="abrirPantalla('pantallaInicio')">← Volver al Menú</button>
+            
+            <div class="titulo-seccion">
+                <h2>Acanalados</h2>
             </div>
-        </div>
-        <div class="tarjeta">
-            <div class="icono">📏</div>
-            <div>
-                <h2>45 Grados</h2>
-                <p>Próximamente</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- ====================================== -->
-    <!-- PANTALLA 3: CALCULADORA UNIFICADA 90° -->
-    <!-- ====================================== -->
-    <section id="pantalla90Grados" class="oculto">
-        <!-- 2 BOTONES DE NAVEGACIÓN AGREGADOS EN LA ENTRADA -->
-        <div style="margin-bottom: 15px;">
-            <button class="volver" style="margin-right: 10px;" onclick="abrirPantalla('pantallaInicio')">← Menú Principal</button>
+            <div class="tarjeta" onclick="abrirPantalla('pantalla90Grados')">
+                <div class="icono">📐</div>
+                <div class="tarjeta-info">
+                    <h2>90 Grados</h2>
+                    <p>Cálculos avanzados con corte y fraccionamiento</p>
+                </div>
+            </div>
+            <div class="tarjeta tarjeta-bloqueada">
+                <div class="icono">📏</div>
+                <div class="tarjeta-info">
+                    <h2>45 Grados</h2>
+                    <p>Próximamente</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====================================== -->
+        <!-- PANTALLA 3: CALCULADORA UNIFICADA 90° -->
+        <!-- ====================================== -->
+        <section id="pantalla90Grados" class="pantalla-seccion oculto">
             <button class="volver" onclick="abrirPantalla('pantallaAcanalados')">← Volver a Acanalados</button>
-        </div>
+            
+            <div class="titulo-seccion">
+                <h2>Calculadora de Acanalado a 90°</h2>
+            </div>
 
-        <h2>Calculadora de Acanalado a 90°</h2>
+            <!-- Formulario de Parámetros -->
+            <div class="formulario-calculo">
+                <div class="fila">
+                    <label for="anchoPlancha">Ancho de plancha (mm):</label>
+                    <input type="number" id="anchoPlancha" value="1200" step="1" onkeydown="return event.key !== '.' && event.key !== ','" onblur="verificarMedidaPlancha()">
+                </div>
+                
+                <div class="fila">
+                    <label for="medidaFinal">Medida final (mm):</label>
+                    <input type="number" id="medidaFinal" value="1000" step="1" onkeydown="return event.key !== '.' && event.key !== ','" onblur="verificarMedidaFinal()">
+                </div>
 
-        <div class="fila">
-            <label for="anchoPlancha">Ancho de plancha:</label>
-            <input type="number" id="anchoPlancha" value="1200" step="1" onkeydown="return event.key !== '.' && event.key !== ','" onblur="verificarMedidaPlancha()">
-        </div>
-        <div class="fila">
-            <label for="medidaFinal">Medida final:</label>
-            <input type="number" id="medidaFinal" value="1000" step="1" onkeydown="return event.key !== '.' && event.key !== ','" onblur="verificarMedidaFinal()">
-        </div>
-        <div class="fila">
-            <label for="canales">Canales:</label>
-            <input type="number" id="canales" value="3" step="1" onblur="verificarCanales()">
-        </div>
-        <div class="fila">
-            <label for="profundidad">Profundidad:</label>
-            <input type="number" id="profundidad" value="15" onblur="verificarProfundidad()">
-        </div>
-        <div class="fila">
-            <label for="bordes">Bordes:</label>
-            <input type="number" id="bordes" value="20" onblur="verificarBordes()">
-        </div>
-        <div class="fila">
-            <label for="espesor">Espesor:</label>
-            <input type="number" id="espesor" value="1" onblur="verificarEspesor()">
-        </div>
+                <div class="fila">
+                    <label for="canales">Cantidad de canales:</label>
+                    <input type="number" id="canales" value="3" step="1" onblur="verificarCanales()">
+                </div>
 
-        <button type="button" class="btn-calcular" onclick="calcular()">Calcular</button>
+                <div class="fila">
+                    <label for="profundidad">Profundidad (mm):</label>
+                    <input type="number" id="profundidad" value="15" onblur="verificarProfundidad()">
+                </div>
 
-        <h3>Resultado</h3>
-        <p>Ancho de canal: <span id="anchoCanal">-</span> mm</p>
-        <p>Alto de canal: <span id="altoCanal">-</span> mm</p>
-        <p>Desarrollo: <span id="desarrollo">-</span> mm</p>
+                <div class="fila">
+                    <label for="bordes">Bordes (mm):</label>
+                    <input type="number" id="bordes" value="20" onblur="verificarBordes()">
+                </div>
 
-        <div id="marcas">
-            <h3>Marcas y Controles por Plancha</h3>
-            <div id="listaMarcas"></div>
-        </div>
-    </section>
+                <div class="fila">
+                    <label for="espesor">Espesor de chapa (mm):</label>
+                    <input type="number" id="espesor" value="1" onblur="verificarEspesor()">
+                </div>
+
+                <button type="button" class="btn-calcular" onclick="calcular()">⚡ Calcular Estructura</button>
+            </div>
+
+            <!-- Panel de Resultados Estructurales -->
+            <div class="panel-resultados">
+                <h3>Resultados de Fabricación</h3>
+                <div class="resultado-item">
+                    <span class="resultado-label">Ancho de canal:</span>
+                    <span class="resultado-valor"><span id="anchoCanal">-</span> mm</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">Alto de canal:</span>
+                    <span class="resultado-valor"><span id="altoCanal">-</span> mm</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">Desarrollo total requerido:</span>
+                    <span class="resultado-valor destacado"><span id="desarrollo">-</span> mm</span>
+                </div>
+            </div>
+
+            <!-- Tabla de Marcas de Control -->
+            <div id="marcas" class="panel-marcas">
+                <h3>Marcas y Controles por Plancha</h3>
+                <div id="listaMarcas"></div>
+                <div id="listaMarcas2"></div>
+            </div>
+        </section>
+    </main>
 
     <!-- Vinculación del archivo lógico de programación -->
     <script src="script.js"></script>
